@@ -1,15 +1,13 @@
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 
-import background from 'public/background.svg'
-
 export default function Home() {
   
   return (
     <>
       <Header />
       <main className="w-full">
-        <div className={`min-h-screen flex items-center justify-center bg-fixed bg-cover bg-center`}>
+        <div className={`min-h-screen flex items-center justify-center bg-fixed bg-cover bg-center`} style={{backgroundImage: "url(https://pescarte.uenf.br/images/fish_background-c4aaa0426c2ea6898aa748f3520e654f.svg?vsn=d)"}}>
           <form className="h-[37.125rem] w-[39.75rem] flex flex-col items-center gap-12 p-16 rounded-3xl bg-white">
             <h3 className="text-2xl font-bold text-[#404040]">Faça login para acessar a plataforma</h3>
             <div className="flex flex-col gap-1 w-[27.25rem] h-[5.25rem]">
