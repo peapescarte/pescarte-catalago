@@ -8,9 +8,9 @@ export default function Home() {
       <Header />
       <main className="w-full">
         <div className={`min-h-screen flex items-center justify-center bg-fixed bg-cover bg-center`} style={{backgroundImage: "url(https://pescarte.uenf.br/images/fish_background-c4aaa0426c2ea6898aa748f3520e654f.svg?vsn=d)"}}>
-          <form className="h-[37.125rem] w-[39.75rem] flex flex-col items-center gap-12 p-16 rounded-3xl bg-white">
-            <h3 className="text-2xl font-bold text-[#404040]">Faça login para acessar a plataforma</h3>
-            <div className="flex flex-col gap-1 w-[27.25rem] h-[5.25rem]">
+          <form className="h-[37.125rem] w-[39.75rem] max-[640px]:mx-4 max-[570px]:w-[20rem] max-[570px]:h-[40rem] flex flex-col items-center gap-12 p-16 rounded-3xl bg-white">
+            <h3 className="text-2xl font-bold text-[#404040] text-center">Faça login para acessar a plataforma</h3>
+            <div className="flex flex-col gap-1 w-[27.25rem] h-[5.25rem] max-[570px]:w-[16rem]">
               <label htmlFor="" className="text-xl">CPF</label>
               <input
                 type="text" 
@@ -19,7 +19,7 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="flex flex-col gap-1 w-[27.25rem] h-[5.25rem]">
+            <div className="flex flex-col gap-1 w-[27.25rem] h-[5.25rem] max-[570px]:w-[16rem]">
               <label htmlFor="" className="text-xl">Senha</label>
               <input
                 type="password" 
@@ -28,18 +28,18 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="w-[27.25rem] flex justify-between">
-              <div className="flex gap-1 items-center">
+            <div className="w-[27.25rem] max-[570px]:w-[16rem] flex justify-between">
+              <div className="flex gap-1 items-center text-left">
                 <input type="checkbox" value="" className="appearance-none h-5 w-5 outline-none before:pointer-events-none rounded border border-solid border-zinc-200 focus:ring-blue-500 checked:bg-[#3383D3]"/>
                 <label className="text-sm">Lembre de mim</label>
               </div>
-              <a className="text-sm font-semibold text-[#404040]" href="https://pescarte.uenf.br/usuarios/recuperar_senha">
+              <a className="text-sm font-semibold text-[#404040] text-right" href="https://pescarte.uenf.br/usuarios/recuperar_senha">
                 Esqueci minha senha
               </a>
             </div>
             <button 
               type="submit" 
-              className="w-[27.25rem] flex items-center justify-center gap-2 h-12 py-6 px-4 rounded text-white bg-[#0064C8] hover:bg-[#3383D3]"
+              className="w-[27.25rem] max-[570px]:w-[16rem] flex items-center justify-center gap-2 h-12 py-6 px-4 rounded text-white bg-[#0064C8] hover:bg-[#3383D3]"
             >
               Acessar
             </button>
