@@ -1,67 +1,78 @@
 import Image from "next/image";
 
 import fish from "../../../public/peixe.png";
-import fish_ico from "../../../public/fish_ico.svg";
+import { LuFish } from "react-icons/lu";
 
-export function CardFish() {
+type CardFishProps = {
+  common_name: string;
+  scientific_name: string;
+  native: boolean;
+  gears: string[];
+};
+
+export function CardFish({
+  common_name,
+  scientific_name,
+  native,
+  gears,
+}: CardFishProps) {
   return (
-    <div className="w-[1360px] flex items-center gap-10 pr-11 border border-[#E7E7E7] rounded-lg">
-      <Image src={fish} placeholder="blur" alt="Um peixe" />
-      <div className="flex flex-col gap-4">
-        <div>
-          <h2 className="font-bold text-2xl">Lambari</h2>
-        </div>
-        <div className="flex items-center gap-12">
-          <div className="flex flex-col gap-2 text-sm">
-            <p>
-              <strong>Nome Científico: </strong>Astynax sp.
+    <div className="border border-[#E7E7E7] rounded-lg lg:flex">
+      {/* Image */}
+      <Image src={fish} placeholder="blur" alt="Um peixe" className="rounded" />
+
+      {/* Content */}
+      <div className="lg:flex lg:flex-col lg:self-center">
+        {/* Name */}
+        <h2 className="font-bold text-2xl p-1 lg:ml-3">{common_name}</h2>
+
+        {/* Info */}
+        <div className="flex flex-col gap-4 p-4 lg:flex-row lg:gap-8">
+          {/* Sci info */}
+          <div className="flex flex-col gap-2">
+            <p className="text-xs">
+              <strong>Nome Científico: </strong>
+              {scientific_name}
             </p>
-            <p>
-              <strong>Espécie: </strong>Nativa
+
+            <p className="text-xs">
+              <strong>Espécie: </strong>
+              {native ? "Nativa" : "Invasora"}
             </p>
-            <p>
+
+            <p className="text-xs">
               <strong>Captura: </strong>
-              <span className="bg-[#F3F3F3] rounded p-1 m-1">Tarrafa</span>
-              <span className="bg-[#F3F3F3] rounded p-1 m-1">Anzol</span>
-              <span className="bg-[#F3F3F3] rounded p-1 m-1">Barco-Motor</span>
+              {gears ? (
+                gears.map((gear) => {
+                  return (
+                    <span key={gear} className="bg-[#F3F3F3] rounded p-1 m-1">
+                      {gear}
+                    </span>
+                  );
+                })
+              ) : (
+                <p>Loading</p>
+              )}
             </p>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="2"
-            height="86"
-            viewBox="0 0 2 86"
-            fill="none"
-          >
-            <path d="M1 0V86" stroke="#E7E7E7" />
-          </svg>
+
+          {/* common info */}
           <div className="flex flex-col gap-2 text-sm">
-            <h3 className="font-bold text-xl">Nomes Populares</h3>
-            <p>
-              <strong>Espécie: </strong> 
-              Piabinhas Lambari
-            </p>
-            <p>
-              <strong>Captura: </strong>
-              <span className="bg-[#F3F3F3] rounded p-1 m-1">Nome X</span>
-              <span className="bg-[#F3F3F3] rounded p-1 m-1">Nome Y</span>  
-            </p>
+            <h3 className="font-bold text-lg">Nomes Populares</h3>
+            <div className="flex flex-col gap-2">
+              <p className="text-xs">
+                <strong>Campos dos Goytacazes:</strong>
+                <span className="bg-[#F3F3F3] rounded p-1 m-1">Piabinhas</span>
+                <span className="bg-[#F3F3F3] rounded p-1 m-1">Lambari</span>
+              </p>
+            </div>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="2"
-            height="86"
-            viewBox="0 0 2 86"
-            fill="none"
-          >
-            <path d="M1 0V86" stroke="#E7E7E7" />
-          </svg>
-          <div>
-            <button className="max-w-[185px] flex items-center justify-center gap-4 py-2 px-4 text-[#3383D3] border border-[#3383D3] rounded">
-              <Image src={fish_ico} width={24} height={24} alt="fish icon" />
-              <p className="text-left leading-4">Enviar outro nome popular</p>
-            </button>
-          </div>
+
+          {/* button */}
+          <button className="flex items-center justify-center gap-2 p-2 border border-[#3383D3] rounded text-[#3383D3] hover:bg-[#3383D3] hover:text-white lg:w-40">
+            <LuFish className="w-6 h-6 lg:w-14 lg:h-14 stroke-1" />
+            Enviar outro nome popular
+          </button>
         </div>
       </div>
     </div>
