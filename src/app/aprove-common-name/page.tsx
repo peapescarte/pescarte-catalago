@@ -1,7 +1,12 @@
+"use client"
+
 import Image from "next/image";
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+
+import { Modal } from "@/components/Modal";
+import { useState } from "react";
 
 import {
   LuMailX,
@@ -13,6 +18,8 @@ import {
 } from "react-icons/lu";
 
 export default function AproveCommonName() {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <>
       <Header />
@@ -74,39 +81,40 @@ export default function AproveCommonName() {
           <div className="space-y-2">
             <h3>Recebidas</h3>
             <div className="overflow-auto rounded-lg shadow hidden md:block">
+
               <table className="w-full">
                 <tbody className="divide-y divide-gray-100 ">
-                  <tr>
+                  <tr onClick={() => setOpenModal(true)} className="cursor-pointer text-sm text-gray-700 hover:text-white hover:bg-[#0064C8] hover:ease-in-out durantion-300">
                     {/* <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td>
                     <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td> */}
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Sobrenome</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">ES</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Município</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Região</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Regional do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome científico do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">08:34</td>
+                    <td className="p-3 whitespace-nowrap">Nome Sobrenome</td>
+                    <td className="p-3 whitespace-nowrap">ES</td>
+                    <td className="p-3 whitespace-nowrap">Município</td>
+                    <td className="p-3 whitespace-nowrap">Região</td>
+                    <td className="p-3 whitespace-nowrap">Nome Regional do peixe</td>
+                    <td className="p-3 whitespace-nowrap">Nome científico do peixe</td>
+                    <td className="p-3 whitespace-nowrap">08:34</td>
                   </tr>
-                  <tr>
+                  <tr className="cursor-pointer text-sm text-gray-700 hover:text-white hover:bg-[#0064C8] hover:ease-in-out durantion-300">
                     {/* <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td>
                     <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td> */}
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Sobrenome</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">ES</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Município</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Região</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Regional do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome científico do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">08:34</td>
+                    <td className="p-3 whitespace-nowrap">Nome Sobrenome</td>
+                    <td className="p-3 whitespace-nowrap">ES</td>
+                    <td className="p-3 whitespace-nowrap">Município</td>
+                    <td className="p-3 whitespace-nowrap">Região</td>
+                    <td className="p-3 whitespace-nowrap">Nome Regional do peixe</td>
+                    <td className="p-3 whitespace-nowrap">Nome científico do peixe</td>
+                    <td className="p-3 whitespace-nowrap">08:34</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:hidden">
-              <div className="space-y-3 p-4 rounded-lg shadow">
+              <div className="space-y-3 p-4 rounded-lg shadow cursor-pointer hover:text-white hover:bg-[#0064C8] hover:ease-in-out durantion-300">
 
                 <div className="text-sm">
-                 Nome Sobrenome
+                  Nome Sobrenome
                 </div>
 
                 <div className="flex items-center space-x-2 text-sm">
@@ -123,7 +131,6 @@ export default function AproveCommonName() {
 
               </div>
             </div>
-
           </div>
 
           <div className="space-y-2">
@@ -131,37 +138,39 @@ export default function AproveCommonName() {
             <div className="overflow-auto rounded-lg shadow hidden md:block">
               <table className="w-full">
                 <tbody className="divide-y divide-gray-100 ">
-                  <tr>
+                  <tr className="cursor-pointer text-sm text-gray-700 hover:text-white hover:bg-[#0064C8] hover:ease-in-out durantion-300">
                     {/* <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td>
                     <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td> */}
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Sobrenome</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">ES</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Município</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Região</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Regional do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome científico do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">08:34</td>
+                    <td className="p-3 whitespace-nowrap">Nome Sobrenome</td>
+                    <td className="p-3 whitespace-nowrap">ES</td>
+                    <td className="p-3 whitespace-nowrap">Município</td>
+                    <td className="p-3 whitespace-nowrap">Região</td>
+                    <td className="p-3 whitespace-nowrap">Nome Regional do peixe</td>
+                    <td className="p-3 whitespace-nowrap">Nome científico do peixe</td>
+                    <td className="p-3 whitespace-nowrap">08:34</td>
                   </tr>
-                  <tr>
+                  <tr className="cursor-pointer text-sm text-gray-700 hover:text-white hover:bg-[#0064C8] hover:ease-in-out durantion-300">
                     {/* <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td>
                     <td className="p-3 text-sm text-gray-700 whitespace-nowrap"><input type="checkbox" className="h-4 w-4 text-[#0064C8] border-[#0064C8] rounded"/></td> */}
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Sobrenome</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">ES</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Município</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Região</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome Regional do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Nome científico do peixe</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">08:34</td>
+                    <td className="p-3 whitespace-nowrap">Nome Sobrenome</td>
+                    <td className="p-3 whitespace-nowrap">ES</td>
+                    <td className="p-3 whitespace-nowrap">Município</td>
+                    <td className="p-3 whitespace-nowrap">Região</td>
+                    <td className="p-3 whitespace-nowrap">Nome Regional do peixe</td>
+                    <td className="p-3 whitespace-nowrap">Nome científico do peixe</td>
+                    <td className="p-3 whitespace-nowrap">08:34</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:hidden">
-              <div className="space-y-3 p-4 rounded-lg shadow">
+
+              {/* Card */}
+              <div onClick={() => setOpenModal(true)} className="space-y-3 p-4 rounded-lg shadow cursor-pointer hover:text-white hover:bg-[#0064C8] hover:ease-in-out durantion-300">
 
                 <div className="text-sm">
-                 Nome Sobrenome
+                  Nome Sobrenome
                 </div>
 
                 <div className="flex items-center space-x-2 text-sm">
@@ -178,9 +187,9 @@ export default function AproveCommonName() {
 
               </div>
             </div>
-
           </div>
 
+          <Modal isOpen={openModal} closeModal={() => setOpenModal(false)}/>
         </main>
       </div>
       <Footer />

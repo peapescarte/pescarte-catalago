@@ -24,11 +24,13 @@ export function CardFish({
 
       {/* Content */}
       <div className="lg:flex lg:flex-col lg:self-center">
+        
         {/* Name */}
         <h2 className="font-bold text-2xl p-1 lg:ml-3">{common_name}</h2>
 
         {/* Info */}
         <div className="flex flex-col gap-4 p-4 lg:flex-row lg:gap-8">
+
           {/* Sci info */}
           <div className="flex flex-col gap-2">
             <p className="text-xs">
