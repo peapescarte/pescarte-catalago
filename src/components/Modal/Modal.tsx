@@ -34,14 +34,23 @@ export function Modal({ isOpen, closeModal }: ModalProps) {
       dialog.close();
     }
   }
+
+  function handleDiscard() {
+    const dialog = dialogRef.current;
+    if (dialog) {
+      closeModal();
+      dialog.close();
+    }
+  }
+
   return (
     <dialog ref={dialogRef} className="max-w-[630px] border-2 rounded-lg">
       <div className="flex flex-col gap-10 p-10">
 
         { /* Titulo */ }
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-6">
           <h1 className="text-xl text-[#0064C8]">Novo Nome Popular</h1>
-          <SlClose onClick={handleCloseModal} className="w-6 h-6 text-[#cfcfcf] cursor-pointer hover:text-[#0064C8] hover:ease-in duration-300 "/>
+          <SlClose onClick={handleCloseModal} className="w-6 h-6 text-[#cfcfcf] cursor-pointer hover:text-[#0064C8] hover:ease-in duration-300"/>
         </div>
 
         { /* Infos */ }
@@ -89,7 +98,7 @@ export function Modal({ isOpen, closeModal }: ModalProps) {
 
       { /* Buttons */}
       <div className="flex flex-col gap-2 my-10 items-center justify-center md:flex-row">
-        <button className="flex items-center justify-center gap-2 p-3 rounded border border-[#99C1E9] hover:bg-[#99C1E9] text-[#66A2DE] hover:text-white w-40">
+        <button onClick={() => handleDiscard()} className="flex items-center justify-center gap-2 p-3 rounded border border-[#99C1E9] hover:bg-[#99C1E9] text-[#66A2DE] hover:text-white w-40">
           Descartar
         </button>
         <button className="flex items-center justify-center gap-2 p-3 rounded bg-[#0064C8] hover:bg-[#3383D3] text-white w-40">

@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { Header } from "@/components/Header";
-import { CardFish } from "@/components/card-fish";
+import { CardFish } from "@/components/CardFish";
 import { Footer } from "@/components/Footer";
 import { Pagination } from "@/components/Pagination";
 
@@ -104,7 +104,7 @@ export default function Home() {
             gears={["Tarrafa", "Anzol", "Barco Motor"]}
           />
         </div>
-        {/* <Pagination /> */}
+        <Pagination />
       </main>
       <Footer />
     </>
