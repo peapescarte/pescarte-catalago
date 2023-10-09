@@ -4,22 +4,16 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LuFish } from "react-icons/lu";
 
-import redes from "../../../public/redes.png";
-import fish from "../../../public/peixe.png";
+import redes from "../../../../../public/redes.png"
+import fishExample from "../../../../../public/peixe.png";
+import { useFish } from "@/hooks/useFish";
 
-type FishProps = {
-  common_name: string;
-  scientific_name: string;
-  native: boolean;
-  gears: string[];
-};
 
-export default function SendCommonName({
-  common_name = "Piaba",
-  scientific_name = "Astyanax bimaculatus",
-  native = true,
-  gears = ["rede de arrasto"],
-}: FishProps) {
+export default function SendCommonName({ params }: {params: {id: string}}) {
+  const { fish: allFish } = useFish();
+
+  const oneFish = allFish.find(fish => fish.id === params.id)
+
   return (
     <>
       <Header />
@@ -39,30 +33,30 @@ export default function SendCommonName({
         <div className="border border-[#E7E7E7] rounded-lg lg:self-start m-2">
 
           {/* Image */}
-          <Image src={fish} placeholder="blur" alt="Um peixe" className="rounded" />
+          <Image src={oneFish?.image || fishExample} alt="Um peixe" className="rounded"  width={390} height={194}/>
 
           {/* Info */}
           <div className="flex flex-col gap-4 px-4 py-6">
 
             {/* Name */}
-            <h2 className="font-bold text-2xl">{common_name}</h2>
+            <h2 className="font-bold text-2xl">{oneFish?.common_name[0].names[0].name}</h2>
 
             {/* Sci info */}
             <div className="flex flex-col gap-2">
               <p>
                 <strong>Nome Científico: </strong>
-                {scientific_name}
+                {oneFish?.scientific_name}
               </p>
 
               <p>
                 <strong>Espécie: </strong>
-                {native ? "Nativa" : "Invasora"}
+                {oneFish?.native ? "Nativa" : "Invasora"}
               </p>
 
               <p>
                 <strong>Captura: </strong>
-                {gears ? (
-                  gears.map((gear) => {
+                {oneFish?.gears ? (
+                  oneFish?.gears.map((gear) => {
                     return (
                       <span key={gear} className="bg-[#F3F3F3] rounded p-1 m-1">
                         {gear}
@@ -76,16 +70,27 @@ export default function SendCommonName({
             </div>
 
             {/* common info */}
-            <div className="flex flex-col gap-2 text-sm">
-              <h3 className="font-bold text-xl">Nomes Populares</h3>
-              <div className="flex flex-col gap-2">
-                <p>
-                  <strong>Campos dos Goytacazes:</strong>
-                  <span className="bg-[#F3F3F3] rounded p-1 m-1">Piabinhas</span>
-                  <span className="bg-[#F3F3F3] rounded p-1 m-1">Lambari</span>
-                </p>
-              </div>
+          <div className="flex flex-col gap-2 text-sm">
+            <h3 className="font-bold text-lg">Nomes Populares</h3>
+            <div className="flex flex-col gap-2">
+              {
+                oneFish?.common_name?.map((region) => {
+                  return (
+                    <p key={region.region} className="text-xs">
+                      <strong>{region.region}:</strong>
+                      {region.names?.map((name) => {
+                        if(name.approve)
+                          return (
+                            <span key={name.name} className="bg-[#F3F3F3] rounded p-1 m-1">{name.name}</span>
+                          )
+                      })}
+
+                    </p>
+                  )
+                })
+              }
             </div>
+          </div>
 
           </div>
         </div>

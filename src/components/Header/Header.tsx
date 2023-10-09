@@ -11,7 +11,7 @@ export function Header() {
       <Link href={"/"}>
         <Image src={logo} width={156} height={50} alt="Logo Pescarte" />
       </Link>
-      <Link href={"/login"}>
+      <Link href={"/pages/login"}>
         <button className="flex items-center justify-center gap-2 p-4 rounded bg-[#0064C8] text-white hover:bg-[#3383D3]">
           <LuLogIn className="w-6 h-6"/>
           Acessar

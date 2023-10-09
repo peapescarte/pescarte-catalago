@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+      images: {
+            remotePatterns: [
+                  {
+                        hostname: "images.unsplash.com"
+                  },
+                  {
+                        hostname: "www.fishipedia.fr"
+                  }
+            ]
+      }
+}
 
 module.exports = nextConfig

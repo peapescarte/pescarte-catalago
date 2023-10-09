@@ -4,17 +4,25 @@ import Image from "next/image";
 
 import { SlClose } from 'react-icons/sl'
 
-import fish from "../../../public/peixe.png";
+import fishExample from "../../../public/peixe.png";
 import { useEffect, useRef } from "react";
+import { useFish, useNames } from "@/hooks";
 
 
 type ModalProps = {
+  item: number;
   isOpen: boolean;
   closeModal: () => void;
 
 }
 
-export function Modal({ isOpen, closeModal }: ModalProps) {
+export function Modal({ item, isOpen, closeModal }: ModalProps) {
+
+  const {fish: allFish } = useFish();
+  const { names } = useNames();
+
+  const name = names[item];
+  const fish = allFish.find((fish) => fish.scientific_name === name.scientific_name);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -49,48 +57,48 @@ export function Modal({ isOpen, closeModal }: ModalProps) {
 
         { /* Titulo */ }
         <div className="flex items-center justify-between gap-6">
-          <h1 className="text-xl text-[#0064C8]">Novo Nome Popular</h1>
+          <h1 className="text-xl text-[#0064C8]">{name.suggestionName}</h1>
           <SlClose onClick={handleCloseModal} className="w-6 h-6 text-[#cfcfcf] cursor-pointer hover:text-[#0064C8] hover:ease-in duration-300"/>
         </div>
 
         { /* Infos */ }
         <div>
           <h2 className="text-[#404040]">Enviado Por:</h2>
-          <p className="text-[#707070]">Nome Sobrenome</p>
+          <p className="text-[#707070]">{name.name}</p>
         </div>
 
         <div className="flex flex-col md:flex-row gap-12">
           <div className="w-52">
             <h2 className="text-[#404040]">Estado:</h2>
-            <p className="text-[#707070]">ES</p>
+            <p className="text-[#707070]">{name.state}</p>
           </div>
 
           <div className="w-52">
             <h2 className="text-[#404040]">Município:</h2>
-            <p className="text-[#707070]">Município</p>
+            <p className="text-[#707070]">{name.municipality}</p>
           </div>
 
           <div className="w-52">
             <h2 className="text-[#404040]">Região:</h2>
-            <p className="text-[#707070]">Região</p>
+            <p className="text-[#707070]">{name.region}</p>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-12">
           <div className="w-52">
             <h2 className="text-[#404040]">Nome Científico:</h2>
-            <p className="text-[#707070]">Nome do peixe</p>
+            <p className="text-[#707070]">{name.scientific_name}</p>
           </div>
 
           <div className="w-52">
             <h2 className="text-[#404040]">Nome Popular Enviado:</h2>
-            <p className="text-[#707070]">Nome popular do peixe</p>
+            <p className="text-[#707070]">{name.suggestionName}</p>
           </div>
         </div>
 
         <div>
           <h2 className="text-[#404040]">Foto:</h2>
-          <Image src={fish} placeholder="blur" alt="Um peixe" width={160} height={160} className="rounded" />
+          <Image src={fish?.image || fishExample} alt="Um peixe" width={160} height={160} className="rounded" />
         </div>
 
       </div>
