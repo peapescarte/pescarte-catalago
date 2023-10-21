@@ -11,8 +11,8 @@ type SuggestionNames = {
 
 }
 
-export const useNames = () => {
-      const names: SuggestionNames[] = [
+export const useSuggestionsNames = () => {
+      const suggestionNames: SuggestionNames[] = [
             {
                   id: '1',
                   name: 'Maria Doe',
@@ -60,6 +60,6 @@ export const useNames = () => {
       ]
 
       return {
-            names,
+            suggestionNames,
       }
 }

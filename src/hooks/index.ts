@@ -1,2 +1,2 @@
 export { useFish } from "./useFish"
-export { useNames } from "./useNames"
+export { useSuggestionsNames } from "./useSuggestionsNames"

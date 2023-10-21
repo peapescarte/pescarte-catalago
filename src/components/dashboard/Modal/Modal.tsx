@@ -4,9 +4,9 @@ import Image from "next/image";
 
 import { SlClose } from 'react-icons/sl'
 
-import fishExample from "../../../public/peixe.png";
+import fishExample from "../../../../public/peixe.png";
 import { useEffect, useRef } from "react";
-import { useFish, useNames } from "@/hooks";
+import { useFish, useSuggestionsNames } from "@/hooks";
 
 
 type ModalProps = {
@@ -19,9 +19,9 @@ type ModalProps = {
 export function Modal({ item, isOpen, closeModal }: ModalProps) {
 
   const {fish: allFish } = useFish();
-  const { names } = useNames();
+  const { suggestionNames } = useSuggestionsNames();
 
-  const name = names[item];
+  const name = suggestionNames[item];
   const fish = allFish.find((fish) => fish.scientific_name === name.scientific_name);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
