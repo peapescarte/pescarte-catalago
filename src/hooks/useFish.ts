@@ -41,8 +41,8 @@ export const useFish = () => {
             {
                   id: "2",
                   scientific_name: 'Geophagus brasiliensis',
-                  native: true,
-                  gears: ["Tarrafa", "Anzol", "Barco Motor"],
+                  native: false,
+                  gears: ["Tarrafa", "Anzol", "Barco Motor", "Tarrafa", "Anzol", "Barco Motor", "Tarrafa", "Anzol", "Barco Motor", "Tarrafa", "Anzol", "Barco Motor"],
                   image: "https://www.fishipedia.fr/wp-content/uploads/2014/05/Geophagus-brasiliensis-725x483.jpg",
                   common_name: [{
                         region: "Praia Rasa",

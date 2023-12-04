@@ -1,1 +1,0 @@
-export { SuggestionNamesTable } from './SuggestionNamesTable';

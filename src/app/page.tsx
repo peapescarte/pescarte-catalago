@@ -2,21 +2,19 @@
 
 import Image from "next/image";
 
-import { Header } from "@/components/Header";
 import { CardFish } from "@/components/CardFish";
 import { Footer } from "@/components/Footer";
 import { Pagination } from "@/components/Pagination";
 
 import redes from "../../public/redes.png";
 import { LuSearch } from "react-icons/lu";
-import { useFish } from "@/hooks";
+import { useFish } from "@/hooks/useFish";
 
 export default function Home() {
   const { fish: allFish } = useFish();
 
   return (
     <>
-      <Header />
       <Image
         className="w-full"
         src={redes}
@@ -36,7 +34,7 @@ export default function Home() {
             </div>
 
             <div className="md:max-w-[400px] w-full flex flex-col gap-3">
-              <label className="font-medium">Buscar por região</label>
+              <label className="font-medium">Buscar por Comunidade</label>
               <input className="p-3 border border-[#E7E7E7] rounded focus:outline-none focus:border-[#0064C8] focus:ring-[#0064C8] focus:ring-1" type="text" />
             </div>
             
