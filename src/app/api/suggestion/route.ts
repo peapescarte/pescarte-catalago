@@ -42,7 +42,7 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json({message: "Community nout found"}, {status: 404})
     }
 
-    const NewSuggestion =  await prisma.suggestedNames.create({ 
+    const NewSuggestion =  await prisma.suggestedCommonNames.create({ 
       data: {
         name,
         email,
