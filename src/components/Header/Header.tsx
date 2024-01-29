@@ -23,7 +23,7 @@ export function Header() {
           <Image src={logo} width="156" height="50" alt="Logo Pescarte" priority />
         </Link>
         <div className="hidden md:block">
-          <Link href={"/pages/login"}>
+          <Link href={"/public/pages/login"}>
             <Button variant="submit" className="w-32 h-12">
               <LogIn className="mr-4" size={20}/>
               Acessar

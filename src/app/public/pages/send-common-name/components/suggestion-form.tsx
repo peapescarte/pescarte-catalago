@@ -5,46 +5,27 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useCommunity } from "@/hooks/useCommunity";
+import { useMunicipality } from "@/hooks/useMunicipality";
+import { useStates } from "@/hooks/useStates";
 import { useSuggest } from "@/hooks/useSuggest";
 
-const states = [
-  { acronym: "AC", name: "Acre" },
-  { acronym: "AL", name: "Alagoas" },
-  { acronym: "AP", name: "Amapá" },
-  { acronym: "AM", name: "Amazonas" },
-  { acronym: "BA", name: "Bahia" },
-  { acronym: "CE", name: "Ceará" },
-  { acronym: "DF", name: "Distrito Federal" },
-  { acronym: "ES", name: "Espírito Santo" },
-  { acronym: "GO", name: "Goiás" },
-  { acronym: "MA", name: "Maranhão" },
-  { acronym: "MT", name: "Mato Grosso" },
-  { acronym: "MS", name: "Mato Grosso do Sul" },
-  { acronym: "MG", name: "Minas Gerais" },
-  { acronym: "PA", name: "Pará" },
-  { acronym: "PB", name: "Paraíba" },
-  { acronym: "PR", name: "Paraná" },
-  { acronym: "PE", name: "Pernambuco" },
-  { acronym: "PI", name: "Piauí" },
-  { acronym: "RJ", name: "Rio de Janeiro" },
-  { acronym: "RN", name: "Rio Grande do Norte" },
-  { acronym: "RS", name: "Rio Grande do Sul" },
-  { acronym: "RO", name: "Rondônia" },
-  { acronym: "RR", name: "Roraima" },
-  { acronym: "SC", name: "Santa Catarina" },
-  { acronym: "SP", name: "São Paulo" },
-  { acronym: "SE", name: "Sergipe" },
-  { acronym: "TO", name: "Tocantins" }
-];
+type SuggestionProps = {
+  id: string
+}
 
-export function SuggestionForm() {
+export function SuggestionForm({ id } : SuggestionProps) {
   const {form, onSubmit } = useSuggest()
+
+  const { states } = useStates()
+  const { municipalities } = useMunicipality()
+  const { communities } = useCommunity()
 
   return (
     <Form {...form}>
       <form
         className="w-full space-y-8"
-        onSubmit={form.handleSubmit(onSubmit)}>
+        onSubmit={form.handleSubmit((data) => onSubmit(data, id))}>
 
         <FormField
           name="name"
@@ -127,9 +108,9 @@ export function SuggestionForm() {
                 <SelectContent>
                   <ScrollArea className="h-[200px]">
                     {
-                      states.map((state) => {
+                      municipalities.map((municipality) => {
                         return (
-                          <SelectItem key={state.acronym} value={state.acronym}>{state.acronym}</SelectItem>
+                          <SelectItem key={municipality.id} value={municipality.id}>{municipality.name}</SelectItem>
                         )
                       })
                     }
@@ -157,9 +138,9 @@ export function SuggestionForm() {
                 <SelectContent>
                   <ScrollArea className="h-[200px]">
                     {
-                      states.map((state) => {
+                      communities.map((community) => {
                         return (
-                          <SelectItem key={state.acronym} value={state.acronym}>{state.acronym}</SelectItem>
+                          <SelectItem key={community.id} value={community.id}>{community.name}</SelectItem>
                         )
                       })
                     }

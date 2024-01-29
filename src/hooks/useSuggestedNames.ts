@@ -1,4 +1,5 @@
-import { SuggestedNames } from "@/app/pages/dashboard/suggestions/columns"
+import { SuggestedNames } from "@/app/admin/pages/suggestions/columns"
+
 
 export const useSuggestedNames = () => {
       const suggestionNames: SuggestedNames[] = [

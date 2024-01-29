@@ -25,13 +25,14 @@ export const useSuggest = () => {
     mode: "onChange",
   })
   
-  const onSubmit = (data: SuggestionFormValues) => {
-    SuggestionService.suggest({
+  const onSubmit = (data: SuggestionFormValues, fish_id: string) => {
+    SuggestionService.create({
+      fish_id: fish_id,
       name: data.name,
       email: data.email,
       state: data.state,
-      municipality: data.municipality,
-      community: data.community,
+      municipality_id: data.municipality,
+      community_id: data.community,
       suggestedName: data.suggestedName,
     })
   }

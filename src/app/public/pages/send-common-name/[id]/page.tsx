@@ -8,8 +8,8 @@ import { SuggestionForm } from "../components/suggestion-form";
 
 import { useFish } from "@/hooks/useFish";
 
-import fishExample from "../../../../../public/peixe.png";
-import redes from "../../../../../public/redes.png"
+import fishExample from "../../../../../../public/peixe.png";
+import redes from "../../../../../../public/redes.png"
 
 export default function SendCommonName({ params }: { params: { id: string } }) {
   const { fish: allFish } = useFish();
@@ -95,7 +95,7 @@ export default function SendCommonName({ params }: { params: { id: string } }) {
 
         {/* Form */}
         <div className="w-full m-4 md:w-[360px]">
-          <SuggestionForm />
+          <SuggestionForm id={params.id}/>
         </div>
     
       </main>

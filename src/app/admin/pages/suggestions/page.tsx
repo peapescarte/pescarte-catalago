@@ -9,7 +9,7 @@ import { useSuggestedNames } from "@/hooks/useSuggestedNames";
 //   return suggestionNames
 // }
 
-export default async function Suggestions() {
+export default function Suggestions() {
   //const data = await getData()  
 
   const { suggestionNames: data } = useSuggestedNames();

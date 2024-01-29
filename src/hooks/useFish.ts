@@ -19,7 +19,7 @@ type FishProps = {
 
 export const useFish = () => {
       const fish: FishProps[] = [
-            {     id: "1",
+            {     id: "clre0jqcw0006mvkm0p7e7i9u",
                   scientific_name: 'Astynax sp.',
                   native: true,
                   gears: ["Tarrafa", "Anzol", "Barco Motor"],
@@ -42,7 +42,7 @@ export const useFish = () => {
                   id: "2",
                   scientific_name: 'Geophagus brasiliensis',
                   native: false,
-                  gears: ["Tarrafa", "Anzol", "Barco Motor", "Tarrafa", "Anzol", "Barco Motor", "Tarrafa", "Anzol", "Barco Motor", "Tarrafa", "Anzol", "Barco Motor"],
+                  gears: ["Tarrafa", "Anzol", "Barco", "Motor", "Rede", "Juquiá", "Farol", "Bateria", "Fisga"],
                   image: "https://www.fishipedia.fr/wp-content/uploads/2014/05/Geophagus-brasiliensis-725x483.jpg",
                   common_name: [{
                         region: "Praia Rasa",

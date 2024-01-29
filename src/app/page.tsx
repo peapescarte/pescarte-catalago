@@ -4,11 +4,21 @@ import Image from "next/image";
 
 import { CardFish } from "@/components/CardFish";
 import { Footer } from "@/components/Footer";
-import { Pagination } from "@/components/Pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
 
 import redes from "../../public/redes.png";
-import { LuSearch } from "react-icons/lu";
 import { useFish } from "@/hooks/useFish";
+import { SearchForm } from "./public/pages/forms/search-form";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function Home() {
   const { fish: allFish } = useFish();
@@ -21,46 +31,55 @@ export default function Home() {
         alt="Uma rede de pesca vermelha e azul toda junta"
       />
       <main className="flex flex-col items-center gap-6 mx-10 mt-20 mb-32">
-        
+
         {/* Title e Search */}
-        <div className="w-full max-w-[1120px]">
-          <h1 className="font-bold text-4xl text-[#404040] mb-10 md:items-center">Catálogo de Pescados</h1>
+        <div className="w-full max-w-[1300px]">
+          <h1 className="font-bold text-4xl text-[#404040] mb-10 md:items-center">Catálogo de Peixes</h1>
 
           {/* Search */}
-          <div className="flex flex-col gap-10 lg:flex-row md:items-center">
-            <div className="md:max-w-[400px] w-full flex flex-col gap-3">
-              <label className="font-medium">Buscar por nome científico ou popular</label>
-              <input className="w-full p-3 border border-[#E7E7E7] rounded focus:outline-none focus:border-[#0064C8] focus:ring-[#0064C8] focus:ring-1" type="text" />
-            </div>
-
-            <div className="md:max-w-[400px] w-full flex flex-col gap-3">
-              <label className="font-medium">Buscar por Comunidade</label>
-              <input className="p-3 border border-[#E7E7E7] rounded focus:outline-none focus:border-[#0064C8] focus:ring-[#0064C8] focus:ring-1" type="text" />
-            </div>
-            
-            <button className="flex items-center justify-center gap-2 p-4 rounded bg-[#0064C8] text-white hover:bg-[#3383D3] lg:h-12 lg:mt-9 lg:max-w-[200px] md:w-full md:max-w-[380px]">
-              <LuSearch />
-              Pesquisar
-            </button>
-          </div>
+          <SearchForm />
+          <Toaster position="top-right" richColors/>
         </div>
 
         <div className="flex flex-col gap-6 mt-12 mb-20">
           {allFish?.map((fish) => {
-              return (
-                <CardFish
-                  key={fish.id}
-                  id={fish.id}
-                  common_name={fish.common_name}
-                  scientific_name={fish.scientific_name}
-                  native={fish.native}
-                  gears={fish.gears}
-                  image={fish.image}
-                />
-              )
+            return (
+              <CardFish
+                key={fish.id}
+                id={fish.id}
+                common_name={fish.common_name}
+                scientific_name={fish.scientific_name}
+                native={fish.native}
+                gears={fish.gears}
+                image={fish.image}
+              />
+            )
           })}
         </div>
-        <Pagination />
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </main>
       <Footer />
     </>

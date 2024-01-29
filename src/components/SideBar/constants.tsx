@@ -1,4 +1,4 @@
-import { FishIcon, Inbox } from "lucide-react";
+import { FishIcon, Inbox, MapPinned } from "lucide-react";
 
 export type SideBarItem = {
   title: string;
@@ -23,6 +23,16 @@ export const SIDEBAR_ITENS: SideBarItem[] = [
     subMenuItems: [
       { title: 'Todos', path: '/admin/pages/fish' },
       { title: 'Novo Peixe', path: '/admin/pages/fish/new' },
+    ],
+  },
+  {
+    title: 'Comunidades',
+    path: '/admin/pages/communities',
+    icon: <MapPinned />,
+    submenu: true,
+    subMenuItems: [
+      { title: 'Todos', path: '/admin/pages/communities' },
+      { title: 'Nova comunidade', path: '/admin/pages/communities/new' },
     ],
   },
 ];
