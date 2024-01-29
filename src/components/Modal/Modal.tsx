@@ -9,13 +9,10 @@ import { useEffect, useRef } from "react";
 import { useFish } from "@/hooks/useFish";
 import { useSuggestedNames } from "@/hooks/useSuggestedNames";
 
-
-
 type ModalProps = {
   item: number;
   isOpen: boolean;
   closeModal: () => void;
-
 }
 
 export function Modal({ item, isOpen, closeModal }: ModalProps) {
