@@ -1,4 +1,4 @@
-import { FishIcon, Inbox, MapPinned } from "lucide-react";
+import { FishIcon, Inbox, LayoutDashboard, MapPinned } from "lucide-react";
 
 export type SideBarItem = {
   title: string;
@@ -10,7 +10,13 @@ export type SideBarItem = {
 
 export const SIDEBAR_ITENS: SideBarItem[] = [
   {
-    title: 'Sugestões',
+    title: 'Dashboard',
+    path: '/admin',
+    icon: <LayoutDashboard />,
+    submenu: false,
+  },
+  {
+    title: 'Nomes Sugeridos',
     path: '/admin/pages/suggestions',
     icon:  <Inbox />,
     submenu: false,
