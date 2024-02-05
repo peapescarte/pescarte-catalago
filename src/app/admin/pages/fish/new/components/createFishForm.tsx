@@ -1,6 +1,6 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useFieldArray, useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -17,6 +17,12 @@ import {
 import { Input } from "@/components/ui/input"
 
 import { FishService } from "@/services/FishService"
+import { cn } from "@/lib/utils"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useStates } from "@/hooks/useStates"
+import { useMunicipality } from "@/hooks/useMunicipality"
+import { useCommunity } from "@/hooks/useCommunity"
 
 const fishHabitat = [
   {
@@ -61,6 +67,12 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 const useCreateFishForm = () => {
   const createFishFormSchema = z.object({
     scientific_name: z.string().min(3, { message: "O nome digitado deve ter mais de 3 caracteres" }).max(50),
+    commons_names: z.array(z.object({
+      common_name: z.string().min(1, { message: "Por favor, insira um nome comum ao peixe." }), 
+      state: z.string().min(2).max(2),
+      municipality: z.string().min(1), 
+      community: z.string().min(1),
+  })).optional(),
     native: z.boolean().default(false),
     image: z.any(),
     fishHabitat: z.array(z.string()).refine((value) => value.some((item) => item), {
@@ -81,12 +93,14 @@ const useCreateFishForm = () => {
     defaultValues: {
       fishHabitat: ["lagoa", "brejo"],
       fishGear: ["azol", "rede"],
+      scientific_name: "",
     },
   })
 
   const onSubmit = (data: CreateFishFormValues) => {
     FishService.create({
       scientific_name: data.scientific_name,
+      commons_names: data.commons_names,
       native: data.native,
       image: data.image,
       fishHabitat: data.fishHabitat,
@@ -102,7 +116,16 @@ const useCreateFishForm = () => {
 
 export default function CreateFishForm() {
 
+  const { states } = useStates()
+  const { municipalities } = useMunicipality()
+  const { communities } = useCommunity()
+
   const { form, onSubmit } = useCreateFishForm()
+
+  const { fields, append } = useFieldArray({
+    name: "commons_names",
+    control: form.control,
+  })
 
   return (
     <Form {...form}>
@@ -115,7 +138,7 @@ export default function CreateFishForm() {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome científico do peixe</FormLabel>
+              <FormLabel>Nome científico</FormLabel>
               <FormControl>
                 <Input
                   className="h-12"
@@ -125,6 +148,128 @@ export default function CreateFishForm() {
             </FormItem>
           )}
         />
+
+        <div className="space-y-4">
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name={`commons_names.${index}.common_name`}
+                render={({ field }) => (
+                  <FormItem className="w-1/2">
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>
+                      Novo nome comum
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+
+                )}
+              />
+
+              <FormField
+                name={`commons_names.${index}.state`}
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="w-1/3">
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>Estado</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione um estado" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <ScrollArea className="h-[200px]">
+                          {
+                            states.map((state) => {
+                              return (
+                                <SelectItem key={state.acronym} value={state.acronym}>{state.acronym}</SelectItem>
+                              )
+                            })
+                          }
+                        </ScrollArea>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name={`commons_names.${index}.municipality`}
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="w-1/2">
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>Município</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione um município" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <ScrollArea className="h-[200px]">
+                          {
+                            municipalities.map((municipality) => {
+                              return (
+                                <SelectItem key={municipality.id} value={municipality.id}>{municipality.name}</SelectItem>
+                              )
+                            })
+                          }
+                        </ScrollArea>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name={`commons_names.${index}.community`}
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="w-1/2">
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>Comunidade</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione uma comunidade" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <ScrollArea className="h-[200px]">
+                          {
+                            communities.map((community) => {
+                              return (
+                                <SelectItem key={community.id} value={community.id}>{community.name}</SelectItem>
+                              )
+                            })
+                          }
+                        </ScrollArea>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+            </div>
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={() => append({ common_name: "", state: "", municipality: "", community: ""})}
+          >
+            Adicionar novo nome comum
+          </Button>
+        </div>
+
 
         <FormField
           control={form.control}
@@ -268,21 +413,21 @@ export default function CreateFishForm() {
           name="copyright"
           render={({ field }) => (
             <FormItem>
-              <div  className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>
-                  Confirmo que possuo os Direitos Autorais da imagem selecionada.
-                </FormLabel>
-                <FormDescription>
-                  Por favor, confirme os direitos autorais. Não serão aceitas imagens cuja não possua os direitos autorais.
-                </FormDescription>
-              </div>
+              <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    Confirmo que possuo os Direitos Autorais da imagem selecionada.
+                  </FormLabel>
+                  <FormDescription>
+                    Por favor, confirme os direitos autorais. Não serão aceitas imagens cuja não possua os direitos autorais.
+                  </FormDescription>
+                </div>
               </div>
               <FormMessage />
             </FormItem>

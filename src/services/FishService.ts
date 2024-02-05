@@ -3,6 +3,12 @@ import { toast } from "sonner"
 
 type FishCreateProps = {
   scientific_name: string,
+  commons_names?: {
+    common_name: string, 
+    state: string, 
+    municipality: string, 
+    community: string,
+  }[]
   native: boolean,
   image: string,
   fishHabitat: string[],
@@ -24,12 +30,14 @@ export const FishService = {
     image,
     fishHabitat,
     fishGear,
+    commons_names,
   }: FishCreateProps): Promise<any | undefined> {
     try {
       //chamada de API
       console.log(
         'FishService.create', 
         scientific_name,
+        commons_names,
         native,
         image,
         fishHabitat,
