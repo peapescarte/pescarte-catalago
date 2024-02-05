@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 
 import { FishService } from "@/services/FishService"
 import { cn } from "@/lib/utils"
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useStates } from "@/hooks/useStates"
 import { useMunicipality } from "@/hooks/useMunicipality"
@@ -68,11 +68,11 @@ const useCreateFishForm = () => {
   const createFishFormSchema = z.object({
     scientific_name: z.string().min(3, { message: "O nome digitado deve ter mais de 3 caracteres" }).max(50),
     commons_names: z.array(z.object({
-      common_name: z.string().min(1, { message: "Por favor, insira um nome comum ao peixe." }), 
+      common_name: z.string().min(1, { message: "Por favor, insira um nome comum ao peixe." }),
       state: z.string().min(2).max(2),
-      municipality: z.string().min(1), 
+      municipality: z.string().min(1),
       community: z.string().min(1),
-  })).optional(),
+    })).optional(),
     native: z.boolean().default(false),
     image: z.any(),
     fishHabitat: z.array(z.string()).refine((value) => value.some((item) => item), {
@@ -264,7 +264,7 @@ export default function CreateFishForm() {
             variant="outline"
             size="sm"
             className="mt-2"
-            onClick={() => append({ common_name: "", state: "", municipality: "", community: ""})}
+            onClick={() => append({ common_name: "", state: "", municipality: "", community: "" })}
           >
             Adicionar novo nome comum
           </Button>
