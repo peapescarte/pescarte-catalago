@@ -1,4 +1,4 @@
-import { axiosClient } from "@/lib/axios"
+import { axiosClient } from "@/libs/axios"
 
 export const useCommunity = (state?: string, municipality?: string) => {
   const communities = [ 

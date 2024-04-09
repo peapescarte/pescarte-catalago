@@ -1,4 +1,4 @@
-import { Header } from '@/components/Header'
+import { Header } from '@/components/my-ui/Header'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Work_Sans } from 'next/font/google'

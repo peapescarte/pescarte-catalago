@@ -1,4 +1,4 @@
-import { SuggestedNames } from "@/app/admin/pages/suggestions/columns"
+import { SuggestedNames } from "@/app/admin/suggestions/components/tables/columns"
 
 
 export const useSuggestedNames = () => {

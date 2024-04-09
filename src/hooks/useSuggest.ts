@@ -1,4 +1,4 @@
-import { SuggestionService } from "@/services/SuggestionService"
+import { SuggestionNameFishService } from "@/services/SuggestionNameFishService"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -26,7 +26,7 @@ export const useSuggest = () => {
   })
   
   const onSubmit = (data: SuggestionFormValues, fish_id: string) => {
-    SuggestionService.create({
+    SuggestionNameFishService.create({
       fish_id: fish_id,
       name: data.name,
       email: data.email,

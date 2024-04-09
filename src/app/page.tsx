@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 
-import { CardFish } from "@/components/CardFish";
-import { Footer } from "@/components/Footer";
+import { CardFish } from "@/components/my-ui/CardFish";
+import { Footer } from "@/components/my-ui/Footer";
 import {
   Pagination,
   PaginationContent,
@@ -17,8 +17,8 @@ import {
 
 import redes from "../../public/redes.png";
 import { useFish } from "@/hooks/useFish";
-import { SearchForm } from "./public/pages/forms/search-form";
 import { Toaster } from "@/components/ui/sonner";
+import { SearchForm } from "./forms/search-form";
 
 export default function Home() {
   const { fish: allFish } = useFish();
