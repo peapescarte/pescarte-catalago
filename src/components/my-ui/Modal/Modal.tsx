@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { SlClose } from 'react-icons/sl'
 
-import fishExample from "../../../public/peixe.png";
+import fishExample from "@/assets/examples/peixe.png";
 import { useEffect, useRef } from "react";
 import { useFish } from "@/hooks/useFish";
 import { useSuggestedNames } from "@/hooks/useSuggestedNames";
