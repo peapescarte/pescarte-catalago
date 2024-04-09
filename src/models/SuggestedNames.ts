@@ -1,5 +1,5 @@
 export type SuggestedNames = {
-  id?: string
+  id: string
   name: string //nome da pessoa que enviou a sugestão
   fish_id: string,
   scientific_name: string
