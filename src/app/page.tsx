@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/pagination"
 
 
-import redes from "../../public/redes.png";
+import redes from "@/assets/backgrounds/redes.png";
 import { useFish } from "@/hooks/useFish";
 import { Toaster } from "@/components/ui/sonner";
 import { SearchForm } from "./forms/search-form";

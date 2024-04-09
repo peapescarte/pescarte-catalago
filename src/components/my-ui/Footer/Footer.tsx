@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-import ibama_logo from "../../../../public/ibama_logo.png";
-import petrobras_logo from "../../../../public/petrobras_logo.png";
-import ipead_nova_logo from "../../../../public/logo_ipead_nova.png";
-import uenf_logo from "../../../../public/uenf.png";
+import ibama_logo from "@/assets/logos/ibama_logo.png";
+import petrobras_logo from "@/assets/logos/petrobras_logo.png";
+import ipead_nova_logo from "@/assets/logos/logo_ipead_nova.png";
+import uenf_logo from "@/assets/logos/uenf.png";
 
 export function Footer() {
   return (

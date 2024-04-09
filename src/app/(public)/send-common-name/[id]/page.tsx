@@ -6,8 +6,8 @@ import { Footer } from "@/components/my-ui/Footer";
 
 import { useFish } from "@/hooks/useFish";
 
-import fishExample from "../../../../../../public/peixe.png";
-import redes from "../../../../../../public/redes.png"
+import fishExample from "@/assets/examples/peixe.png";
+import redes from "@/assets/backgrounds/redes.png"
 import { SuggestionForm } from "../forms/suggestion-form";
 
 export default function SendCommonName({ params }: { params: { id: string } }) {

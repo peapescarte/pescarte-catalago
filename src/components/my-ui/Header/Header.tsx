@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import logo from '../../../../public/logo_full.svg'
+import logo from '@/assets/logos/logo_full.svg'
 
 import { Button } from "../../ui/button"
 import { LogIn, Menu, X } from "lucide-react"
