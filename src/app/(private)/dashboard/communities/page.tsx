@@ -5,7 +5,6 @@ import { useCommunity } from "@/hooks/useCommunity";
 
 export default function Communities() {
   const { communities } = useCommunity();
-
   return (
     <DataTable columns={columns} data={communities} />
   )
