@@ -10,7 +10,7 @@ import { FishService, LocalityService } from "@/services";
 export default async function SendCommonName({ params }: { params: { id: string } }) {
   const fish = await FishService.getFishById(params.id)
   const states = await LocalityService.getAllState(true)
-  
+
   return (
     <>
       <Image
@@ -28,23 +28,23 @@ export default async function SendCommonName({ params }: { params: { id: string 
 
           {/* Image */}
           {fish.image_data != null ? (
-            <Image src={fish.image_data} 
-              alt="Um peixe" 
-              className="rounded" 
-              width="360" 
-              height="200"/>
-            ) : (
-              <Image src={fishExample} 
-              alt="Um peixe" 
-              className="rounded" 
-              width="360" 
-              height="200"/>
-            )}
+            <Image src={fish.image_data}
+              alt="Um peixe"
+              className="rounded"
+              width="360"
+              height="200" />
+          ) : (
+            <Image src={fishExample}
+              alt="Um peixe"
+              className="rounded"
+              width="360"
+              height="200" />
+          )}
 
           {/* Info */}
           <div className="flex flex-col gap-4 px-4 py-6">
             {/* Name */}
-            { fish.suggested_names != undefined && fish.suggested_names.length > 0 ? (
+            {fish.suggested_names != undefined && fish.suggested_names.length > 0 ? (
               <h2 className="font-bold text-2xl p-1 xl:ml-3">{fish.suggested_names[0].names[0]}</h2>
             ) : (
               <h2 className="font-bold text-2xl p-1 xl:ml-3">Peixe</h2>
@@ -88,9 +88,9 @@ export default async function SendCommonName({ params }: { params: { id: string 
                       <p key={suggested_name.community} className="text-xs">
                         <strong>{suggested_name.community}:</strong>
                         {suggested_name.names?.map((name) => {
-                            return (
-                              <span key={name} className="bg-[#F3F3F3] rounded p-1 m-1">{name}</span>
-                            )
+                          return (
+                            <span key={name} className="bg-[#F3F3F3] rounded p-1 m-1">{name}</span>
+                          )
                         })}
 
                       </p>
@@ -104,9 +104,9 @@ export default async function SendCommonName({ params }: { params: { id: string 
 
         {/* Form */}
         <div className="w-full m-4 md:w-[360px]">
-          <SuggestionForm id={params.id} states={states}/>
+          <SuggestionForm id={params.id} states={states} />
         </div>
-    
+
       </main>
       <Footer />
     </>
