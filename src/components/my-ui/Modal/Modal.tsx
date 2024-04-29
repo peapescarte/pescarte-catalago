@@ -17,7 +17,7 @@ type ModalProps = {
 }
 
 export function Modal({ row_data, isOpen, closeModal }: ModalProps) {
-  
+
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -47,7 +47,7 @@ export function Modal({ row_data, isOpen, closeModal }: ModalProps) {
     }
   }
 
-  async function handleApprove(id: string =  "") {
+  async function handleApprove(id: string = "") {
     await SuggestionNameService.approveSuggestion(id)
 
     const dialog = dialogRef.current;
@@ -112,7 +112,7 @@ export function Modal({ row_data, isOpen, closeModal }: ModalProps) {
 
           <div className="flex flex-col justify-center items-center">
             {/* <h2 className="text-[#404040]">Foto:</h2> */}
-              {/* Image */}
+            {/* Image */}
             <Image src={row_data?.image_data || fishExample} alt="Um peixe" width="225" height="125" className="rounded-lg" />
           </div>
         </div>
@@ -121,15 +121,15 @@ export function Modal({ row_data, isOpen, closeModal }: ModalProps) {
 
 
       { /* Buttons */}
-      { row_data?.status === "PENDING" ? (
-      <div className="flex flex-col gap-2 my-10 items-center justify-center md:flex-row">
-        <button onClick={() => handleReject(row_data?.id)} className="flex items-center justify-center gap-2 p-3 rounded border border-[#99C1E9] hover:bg-[#99C1E9] text-[#66A2DE] hover:text-white w-40">
-          Descartar
-        </button>
-        <button onClick={() => handleApprove(row_data?.id)} className="flex items-center justify-center gap-2 p-3 rounded bg-[#0064C8] hover:bg-[#3383D3] text-white w-40">
-          Aprovar
-        </button>
-      </div>
+      {row_data?.status === "PENDING" ? (
+        <div className="flex flex-col gap-2 my-10 items-center justify-center md:flex-row">
+          <button onClick={() => handleReject(row_data?.id)} className="flex items-center justify-center gap-2 p-3 rounded border border-[#99C1E9] hover:bg-[#99C1E9] text-[#66A2DE] hover:text-white w-40">
+            Descartar
+          </button>
+          <button onClick={() => handleApprove(row_data?.id)} className="flex items-center justify-center gap-2 p-3 rounded bg-[#0064C8] hover:bg-[#3383D3] text-white w-40">
+            Aprovar
+          </button>
+        </div>
       ) : (
         <>
           {row_data?.status === "APPROVED" && (
@@ -140,9 +140,9 @@ export function Modal({ row_data, isOpen, closeModal }: ModalProps) {
               REJECTED
             </Badge>
           )}
-      </>
+        </>
       )
-    }
+      }
     </dialog>
   );
 }
