@@ -7,15 +7,16 @@ export const useSearchForm = () => {
   const searchFormSchema = z.object({
     scientific_name: z.string().max(50).optional(),
     common_name: z.string().optional(),
-    state: z.string().max(2).optional(),
-    municipality: z.string().optional(),
+    uf: z.string().max(2).optional(),
+    municipality_id: z.string().optional(),
     community: z.string().optional(),
   })
 
   type SearchFormValues = z.infer<typeof searchFormSchema>
 
   const defaultValues: Partial<SearchFormValues> = {
-    state: "RJ"
+    uf: "RJ",
+    municipality_id: "",
   }
 
   const form = useForm<SearchFormValues>({
@@ -25,11 +26,9 @@ export const useSearchForm = () => {
   })
   
   const onSubmit = (data: SearchFormValues) => {
-    FishService.getAll({
+    FishService.getFishByFilter({
       scientific_name: data.scientific_name,
       common_name: data.common_name,
-      state: data.state,
-      municipality_id: data.municipality,
       community_id: data.community,
     })
   }

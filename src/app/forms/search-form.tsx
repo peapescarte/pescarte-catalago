@@ -5,16 +5,54 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useCommunity } from "@/hooks/useCommunity";
-import { useMunicipality } from "@/hooks/useMunicipality";
-import { useSearchForm } from "@/hooks/useSearchForm";
-import { useStates } from "@/hooks/useStates";
 
-export function SearchForm() {
+import { useSearchForm } from "@/hooks/useSearchForm";
+import { LocalityService } from "@/services";
+import { useCallback, useEffect, useState } from "react";
+import { State } from "@/models/State";
+import { useWatch } from "react-hook-form";
+import { CommunityOut } from "@/models/Community";
+import { City } from "@/models/City";
+
+type SearchFormProps = {
+  states: State[]
+}
+
+
+export function SearchForm({states} : SearchFormProps) {
   const { form, onSubmit } = useSearchForm()
-  const { states } = useStates()
-  const { municipalities } = useMunicipality()
-  const { communities } = useCommunity()
+  const [municipalities, setMunicipalities] = useState<City[]>([])
+  const [communities, setCommunities] = useState<CommunityOut[]>([])
+
+  const uf = useWatch({
+    control: form.control,
+    name: "uf"
+  })
+
+  const municipality = useWatch({
+    control: form.control,
+    name: "municipality_id"
+  })
+
+  const getAllMunicipalities = useCallback(async (uf: string | undefined) => {
+    const cities = await LocalityService.getMunicipalityByUF(uf, true)
+
+    setMunicipalities(cities)
+  }, [])
+
+  const getCommunitiesByMunicipality = useCallback(async (municipality_id: string | undefined) => {
+    const communities = await LocalityService.getCommunityByMunicipality(municipality_id) 
+
+    setCommunities(communities)
+  }, [])
+
+  useEffect(() => {
+    getAllMunicipalities(uf)
+  }, [getAllMunicipalities, uf])
+
+  useEffect(() => {
+    getCommunitiesByMunicipality(municipality)
+  }, [getCommunitiesByMunicipality, municipality])
 
   return (
     <Form {...form}>
@@ -56,13 +94,12 @@ export function SearchForm() {
           />
        
           <FormField
-            name="state"
+            name="uf"
             control={form.control}
             render={({ field }) => (
               <FormItem className=" xl:w-1/2 xl:flex-grow">
                 <FormLabel>Estado</FormLabel>
                 <Select
-                  
                   onValueChange={field.onChange}
                   defaultValue={field.value}>
                   <FormControl>
@@ -75,7 +112,7 @@ export function SearchForm() {
                       {
                         states.map((state) => {
                           return (
-                            <SelectItem key={state.acronym} value={state.acronym}>{state.acronym}</SelectItem>
+                            <SelectItem key={state.uf} value={state.uf}>{state.uf}</SelectItem>
                           )
                         })
                       }
@@ -86,35 +123,36 @@ export function SearchForm() {
             )}
           />
 
-          <FormField
-            name="municipality"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="w-full xl:flex-grow">
-                <FormLabel>Município</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="xl:h-10">
-                      <SelectValue placeholder="Selecione um município" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <ScrollArea className="h-[200px]">
-                      {
-                        municipalities.map((municipality) => {
-                          return (
-                            <SelectItem key={municipality.id} value={municipality.id}>{municipality.name}</SelectItem>
-                          )
-                        })
-                      }
-                    </ScrollArea>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+          
+        <FormField
+          name="municipality_id"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className=" xl:w-1/2 xl:flex-grow">
+              <FormLabel>Município</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="xl:h-10">
+                    <SelectValue placeholder="Selecione um município" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <ScrollArea className="h-[200px]">
+                    {
+                      municipalities.map((municipality) => {
+                        return (
+                          <SelectItem key={municipality.id} value={municipality.id}>{municipality.name}</SelectItem>
+                        )
+                      })
+                    }
+                  </ScrollArea>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
 
           <FormField
             name="community"

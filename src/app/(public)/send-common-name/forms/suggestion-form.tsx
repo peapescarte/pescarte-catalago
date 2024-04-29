@@ -5,21 +5,55 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useCommunity } from "@/hooks/useCommunity";
-import { useMunicipality } from "@/hooks/useMunicipality";
-import { useStates } from "@/hooks/useStates";
+
 import { useSuggest } from "@/hooks/useSuggest";
+import { City } from "@/models/City";
+import { CommunityOut } from "@/models/Community";
+import { State } from "@/models/State";
+import { LocalityService } from "@/services";
+import { useCallback, useEffect, useState } from "react";
+import { useWatch } from "react-hook-form";
 
 type SuggestionProps = {
   id: string
+  states: State[]
 }
 
-export function SuggestionForm({ id } : SuggestionProps) {
-  const {form, onSubmit } = useSuggest()
+export function SuggestionForm({ id, states } : SuggestionProps) {
+  const [municipalities, setMunicipalities] = useState<City[]>([])
+  const [communities, setCommunities] = useState<CommunityOut[]>([])
 
-  const { states } = useStates()
-  const { municipalities } = useMunicipality()
-  const { communities } = useCommunity()
+  const { form, onSubmit } = useSuggest()
+
+  const uf = useWatch({
+    control: form.control,
+    name: "uf"
+  })
+
+  const municipality = useWatch({
+    control: form.control,
+    name: "municipality"
+  })
+
+  const getAllMunicipalities = useCallback(async (uf: string) => {
+    const cities = await LocalityService.getMunicipalityByUF(uf, true)
+
+    setMunicipalities(cities)
+  }, [])
+
+  const getCommunitiesByMunicipality = useCallback(async (municipality_id: string) => {
+    const communities = await LocalityService.getCommunityByMunicipality(municipality_id) 
+
+    setCommunities(communities)
+  }, [])
+
+  useEffect(() => {
+    getAllMunicipalities(uf)
+  }, [getAllMunicipalities, uf])
+
+  useEffect(() => {
+    getCommunitiesByMunicipality(municipality)
+  }, [getCommunitiesByMunicipality, municipality])
 
   return (
     <Form {...form}>
@@ -61,13 +95,12 @@ export function SuggestionForm({ id } : SuggestionProps) {
         />
 
         <FormField
-          name="state"
+          name="uf"
           control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Estado</FormLabel>
               <Select
-                disabled 
                 onValueChange={field.onChange} 
                 defaultValue={field.value}>
                 <FormControl>
@@ -80,7 +113,7 @@ export function SuggestionForm({ id } : SuggestionProps) {
                     {
                       states.map((state) => {
                         return (
-                          <SelectItem key={state.acronym} value={state.acronym}>{state.acronym}</SelectItem>
+                          <SelectItem key={state.uf} value={state.uf}>{state.uf}</SelectItem>
                         )
                       })
                     }

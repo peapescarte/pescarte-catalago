@@ -1,11 +1,11 @@
-import { useFish } from "@/hooks/useFish";
 import { DataTable } from "./new/tables/data-table";
 import { columns } from "./new/tables/columns";
+import { FishService } from "@/services";
 
-export default function Fish() {
-  const { fish: data } = useFish();
+export default async function Fish() {
+  const fish = await FishService.getAll()
 
   return (
-    <DataTable columns={columns} data={data} />
+    <DataTable columns={columns} data={fish} />
   )
 }

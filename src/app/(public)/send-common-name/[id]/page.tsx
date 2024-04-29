@@ -1,20 +1,16 @@
-"use client"
-
 import Image from "next/image";
 
 import { Footer } from "@/components/my-ui/Footer";
 
-import { useFish } from "@/hooks/useFish";
-
 import fishExample from "@/assets/examples/peixe.png";
 import redes from "@/assets/backgrounds/redes.png"
 import { SuggestionForm } from "../forms/suggestion-form";
+import { FishService, LocalityService } from "@/services";
 
-export default function SendCommonName({ params }: { params: { id: string } }) {
-  const { fish: allFish } = useFish();
-
-  const oneFish = allFish.find(fish => fish.id === params.id)
-
+export default async function SendCommonName({ params }: { params: { id: string } }) {
+  const fish = await FishService.getFishById(params.id)
+  const states = await LocalityService.getAllState(true)
+  
   return (
     <>
       <Image
@@ -31,33 +27,48 @@ export default function SendCommonName({ params }: { params: { id: string } }) {
         <div className="md:w-[360px] border border-[#E7E7E7] rounded-lg lg:self-start">
 
           {/* Image */}
-          <Image src={oneFish?.image || fishExample} alt="Um peixe" className="rounded" width="360" height="200"/>
+          {fish.image_data != null ? (
+            <Image src={fish.image_data} 
+              alt="Um peixe" 
+              className="rounded" 
+              width="360" 
+              height="200"/>
+            ) : (
+              <Image src={fishExample} 
+              alt="Um peixe" 
+              className="rounded" 
+              width="360" 
+              height="200"/>
+            )}
 
           {/* Info */}
           <div className="flex flex-col gap-4 px-4 py-6">
-
             {/* Name */}
-            <h2 className="font-bold text-2xl">{oneFish?.common_name[0].names[0].name}</h2>
+            { fish.suggested_names != undefined && fish.suggested_names.length > 0 ? (
+              <h2 className="font-bold text-2xl p-1 xl:ml-3">{fish.suggested_names[0].names[0]}</h2>
+            ) : (
+              <h2 className="font-bold text-2xl p-1 xl:ml-3">Peixe</h2>
+            )}
 
             {/* Sci info */}
             <div className="flex flex-col gap-2">
               <p>
                 <strong>Nome Científico: </strong>
-                {oneFish?.scientific_name}
+                {fish.scientific_name}
               </p>
 
               <p>
                 <strong>Espécie: </strong>
-                {oneFish?.native ? "Nativa" : "Invasora"}
+                {fish.native ? "Nativa" : "Invasora"}
               </p>
 
               <p>
                 <strong>Captura: </strong>
-                {oneFish?.gears ? (
-                  oneFish?.gears.map((gear) => {
+                {fish.gears ? (
+                  fish.gears.map((gear) => {
                     return (
-                      <span key={gear} className="bg-[#F3F3F3] rounded p-1 m-1">
-                        {gear}
+                      <span key={gear.id} className="bg-[#F3F3F3] rounded p-1 m-1">
+                        {gear.name}
                       </span>
                     );
                   })
@@ -72,14 +83,13 @@ export default function SendCommonName({ params }: { params: { id: string } }) {
               <h3 className="font-bold text-lg">Nomes Populares</h3>
               <div className="flex flex-col gap-2">
                 {
-                  oneFish?.common_name?.map((region) => {
+                  fish.suggested_names?.map((suggested_name) => {
                     return (
-                      <p key={region.region} className="text-xs">
-                        <strong>{region.region}:</strong>
-                        {region.names?.map((name) => {
-                          if (name.approve)
+                      <p key={suggested_name.community} className="text-xs">
+                        <strong>{suggested_name.community}:</strong>
+                        {suggested_name.names?.map((name) => {
                             return (
-                              <span key={name.name} className="bg-[#F3F3F3] rounded p-1 m-1">{name.name}</span>
+                              <span key={name} className="bg-[#F3F3F3] rounded p-1 m-1">{name}</span>
                             )
                         })}
 
@@ -94,7 +104,7 @@ export default function SendCommonName({ params }: { params: { id: string } }) {
 
         {/* Form */}
         <div className="w-full m-4 md:w-[360px]">
-          <SuggestionForm id={params.id}/>
+          <SuggestionForm id={params.id} states={states}/>
         </div>
     
       </main>

@@ -1,4 +1,4 @@
-import { SuggestedNames } from "@/models/SuggestedNames"
+import { SuggestedNames } from "@/models/SuggestedName"
 
 export const useSuggestedNames = () => {
       const suggestionNames: SuggestedNames[] = [

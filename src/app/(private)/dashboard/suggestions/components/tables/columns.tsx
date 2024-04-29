@@ -1,24 +1,11 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { SuggestedNameOutProps } from "@/models/SuggestedName"
 import { ColumnDef } from "@tanstack/react-table"
-import { LuArrowUpDown } from "react-icons/lu"
 
 
-export type SuggestedNames = {
-  id: string
-  name: string //nome da pessoa que enviou a sugestão
-  fish_id: string,
-  scientific_name: string
-  state: string,
-  municipality: string,
-  community: string,
-  suggestedName: string,
-  status: "pending" | "approved" | "discarded"
-}
-
-export const columns: ColumnDef<SuggestedNames> [] = [
+export const columns: ColumnDef<SuggestedNameOutProps> [] = [
   // {
   //   accessorKey: "name",
   //   header: ({ column }) => {
@@ -44,7 +31,7 @@ export const columns: ColumnDef<SuggestedNames> [] = [
     header: () => <div className="text-white font-medium whitespace-nowrap">Município</div>,
   },
   {
-    accessorKey: "state",
+    accessorKey: "uf",
     header: () => <div className="text-white font-medium whitespace-nowrap">Estado</div>,
   },
   {
@@ -52,7 +39,7 @@ export const columns: ColumnDef<SuggestedNames> [] = [
     header: () => <div className="text-white font-medium whitespace-nowrap">Comunidade</div>,
   },
   {
-    accessorKey: "suggestedName",
+    accessorKey: "suggested_name",
     header: () => <div className="text-white font-medium whitespace-nowrap">Nome Sugerido</div>,
   },
   {
@@ -61,17 +48,17 @@ export const columns: ColumnDef<SuggestedNames> [] = [
     cell: ({ row }) => { 
       const status = row.getValue("status")
 
-      if(status === "pending")
+      if(status === "PENDING")
         return (
         <Badge variant="pending" >{status}</Badge>
       )
 
-      if(status === "approved")
+      if(status === "APPROVED")
         return (
           <Badge variant="approved">{status}</Badge>
         )
 
-      if(status === "discarded")
+      if(status === "REJECTED")
         return (
           <Badge variant="discarded" className="text-white font-medium whitespace-nowrap">{status}</Badge>
         )

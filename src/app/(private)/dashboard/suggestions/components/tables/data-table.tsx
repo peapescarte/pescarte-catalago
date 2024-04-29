@@ -29,6 +29,7 @@ import { useState } from "react"
 import { DataTablePagination } from "../pagination"
 import { DataTableFilter } from "../filter"
 import { Modal } from "@/components/my-ui/Modal"
+import { SuggestedNameOutProps } from "@/models/SuggestedName"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -43,10 +44,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [sorting, setSorting] = useState<SortingState>([])
 
   const [openModal, setOpenModal] = useState(false);
-  const [item, setItem] = useState(0)
+  const [item, setItem] = useState<SuggestedNameOutProps>()
 
-  function handleOpenModal(index: number) {
-    setItem(index)
+  function handleOpenModal(row_data: any) {
+    setItem(row_data)
     setOpenModal(true);
   }
 
@@ -71,7 +72,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
-
+  
   return (
     <div className="space-y-4">
       <DataTableFilter table={table} />
@@ -99,7 +100,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  onClick={() => handleOpenModal(row.index)}
+                  onClick={() => handleOpenModal(row.original)}
                   className="hover:bg-[#0064C8]/80 cursor-pointer hover:text-white"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
@@ -122,7 +123,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         </Table>
       </div>
       <DataTablePagination table={table} />
-      <Modal isOpen={openModal} item={item} closeModal={() => setOpenModal(false)} />
+      <Modal isOpen={openModal} row_data={item} closeModal={() => setOpenModal(false)} />
     </div>
   )
 

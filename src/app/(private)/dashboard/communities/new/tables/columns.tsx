@@ -2,17 +2,12 @@
 
 
 import { Button } from "@/components/ui/button"
+import { CommunityOut } from "@/models/Community"
 import { ColumnDef } from "@tanstack/react-table"
 import { LuArrowUpDown } from "react-icons/lu"
 
-export type CommunityProps = {
-  id: string
-  name: string
-  municipality: string
-  state: string
-}
 
-export const columns: ColumnDef<CommunityProps>[] = [
+export const columns: ColumnDef<CommunityOut>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -37,7 +32,7 @@ export const columns: ColumnDef<CommunityProps>[] = [
     }
   },
   {
-    accessorKey: "state",
+    accessorKey: "uf",
     header: ({ column }) => {
       return (
         <Button
@@ -52,10 +47,10 @@ export const columns: ColumnDef<CommunityProps>[] = [
       )
     },
     cell: ({ row }) => {
-      const state: string = row.getValue("state")
+      const uf: string = row.getValue("uf")
 
       return (
-        <p className="ml-2 font-medium">{state}</p>
+        <p className="ml-2 font-medium">{uf}</p>
       )
     }
   },

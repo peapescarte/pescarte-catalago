@@ -1,6 +1,7 @@
 "use client"
+
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useFieldArray, useForm } from "react-hook-form"
+import { useFieldArray, useForm, useWatch } from "react-hook-form"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -20,56 +21,21 @@ import { FishService } from "@/services/FishService"
 import { cn } from "@/libs/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useStates } from "@/hooks/useStates"
-import { useMunicipality } from "@/hooks/useMunicipality"
-import { useCommunity } from "@/hooks/useCommunity"
+import { State } from "@/models/State"
+import { GearOut } from "@/models/Gear"
+import { HabitatOut } from "@/models/Habitat"
+import { City } from "@/models/City"
+import { CommunityOut } from "@/models/Community"
 
-const fishHabitat = [
-  {
-    id: "mar",
-    label: "Mar",
-  },
-  {
-    id: "rio",
-    label: "Rio",
-  },
-  {
-    id: "lagoa",
-    label: "Lagoa",
-  },
-  {
-    id: "brejo",
-    label: "Brejo",
-  },
-]
-
-const fishGear = [
-  {
-    id: "rede",
-    label: "Rede",
-  },
-  {
-    id: "barcomotor",
-    label: "Barco Motor",
-  },
-  {
-    id: "tarrafa",
-    label: "Tarrafa",
-  },
-  {
-    id: "azol",
-    label: "Azol",
-  },
-]
 
 const useCreateFishForm = () => {
   const createFishFormSchema = z.object({
     scientific_name: z.string().min(3, { message: "O nome digitado deve ter mais de 3 caracteres" }).max(50),
-    commons_names: z.array(z.object({
+    suggested_names: z.array(z.object({
       common_name: z.string().min(1, { message: "Por favor, insira um nome comum ao peixe." }),
-      state: z.string().min(2).max(2),
+      uf: z.string().min(2).max(2),
       municipality: z.string().min(1),
-      community: z.string().min(1),
+      community_id: z.string().min(1),
     })).optional(),
     native: z.boolean().default(false),
     image: z.any(),
@@ -98,11 +64,11 @@ const useCreateFishForm = () => {
   const onSubmit = (data: CreateFishFormValues) => {
     FishService.create({
       scientific_name: data.scientific_name,
-      commons_names: data.commons_names,
+      suggested_names: data.suggested_names || [],
       native: data.native,
       image: data.image,
-      fishHabitat: data.fishHabitat,
-      fishGear: data.fishGear,
+      habitats: data.fishHabitat,
+      gears: data.fishGear,
     })
   }
 
@@ -112,15 +78,19 @@ const useCreateFishForm = () => {
   }
 }
 
-export default function CreateFishForm() {
+type CreateFishProps = {
+  states: State[],
+  gears: GearOut[],
+  habitats: HabitatOut[]
+  municipalities: City[]
+  communities: CommunityOut[]
+}
 
-  const { states } = useStates()
-  const { municipalities } = useMunicipality()
-  const { communities } = useCommunity()
+export default function CreateFishForm({ municipalities, communities, gears, habitats, states }: CreateFishProps) {
 
   const { form, onSubmit } = useCreateFishForm()
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     name: "commons_names",
     control: form.control,
   })
@@ -152,7 +122,7 @@ export default function CreateFishForm() {
             <div key={field.id} className="flex items-center gap-4">
               <FormField
                 control={form.control}
-                name={`commons_names.${index}.common_name`}
+                name={`suggested_names.${index}.common_name`}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
                     <FormLabel className={cn(index !== 0 && "sr-only")}>
@@ -167,7 +137,7 @@ export default function CreateFishForm() {
               />
 
               <FormField
-                name={`commons_names.${index}.state`}
+                name={`suggested_names.${index}.uf`}
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="w-1/3">
@@ -185,7 +155,7 @@ export default function CreateFishForm() {
                           {
                             states.map((state) => {
                               return (
-                                <SelectItem key={state.acronym} value={state.acronym}>{state.acronym}</SelectItem>
+                                <SelectItem key={state.uf} value={state.uf}>{state.uf}</SelectItem>
                               )
                             })
                           }
@@ -197,7 +167,7 @@ export default function CreateFishForm() {
               />
 
               <FormField
-                name={`commons_names.${index}.municipality`}
+                name={`suggested_names.${index}.municipality`}
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
@@ -227,7 +197,7 @@ export default function CreateFishForm() {
               />
 
               <FormField
-                name={`commons_names.${index}.community`}
+                name={`suggested_names.${index}.community_id`}
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="w-1/2">
@@ -255,17 +225,26 @@ export default function CreateFishForm() {
                   </FormItem>
                 )}
               />
+              <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className={cn(index === 0 ? "mt-8" : "mt-2.5")}
+              onClick={() => remove(index)}
+            >
+              X
+            </Button>
             </div>
           ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => append({ common_name: "", state: "", municipality: "", community: "" })}
-          >
-            Adicionar novo nome comum
-          </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-2"
+              onClick={() => append({ common_name: "", uf: "", municipality: "", community: "" })}
+            >
+              Adicionar novo nome comum
+            </Button>
         </div>
 
 
@@ -303,33 +282,33 @@ export default function CreateFishForm() {
                   Selecione os locais onde o peixe pode ser encontrado.
                 </FormDescription>
               </div>
-              {fishHabitat.map((item) => (
+              {habitats.map((habitat) => (
                 <FormField
-                  key={item.id}
+                  key={habitat.id}
                   control={form.control}
                   name="fishHabitat"
                   render={({ field }) => {
                     return (
                       <FormItem
-                        key={item.id}
+                        key={habitat.id}
                         className="flex flex-row items-start space-x-3 space-y-0"
                       >
                         <FormControl>
                           <Checkbox
-                            checked={field.value?.includes(item.id)}
+                            checked={field.value?.includes(habitat.id)}
                             onCheckedChange={(checked) => {
                               return checked
-                                ? field.onChange([...field.value, item.id])
+                                ? field.onChange([...field.value, habitat.id])
                                 : field.onChange(
                                   field.value?.filter(
-                                    (value) => value !== item.id
+                                    (value) => value !== habitat.id
                                   )
                                 )
                             }}
                           />
                         </FormControl>
                         <FormLabel className="font-normal">
-                          {item.label}
+                          {habitat.name}
                         </FormLabel>
                       </FormItem>
                     )
@@ -352,33 +331,33 @@ export default function CreateFishForm() {
                   Selecione as ferramentas utilizadas na caputura do peixe.
                 </FormDescription>
               </div>
-              {fishGear.map((item) => (
+              {gears.map((gear) => (
                 <FormField
-                  key={item.id}
+                  key={gear.id}
                   control={form.control}
                   name="fishGear"
                   render={({ field }) => {
                     return (
                       <FormItem
-                        key={item.id}
+                        key={gear.id}
                         className="flex flex-row items-start space-x-3 space-y-0"
                       >
                         <FormControl>
                           <Checkbox
-                            checked={field.value?.includes(item.id)}
+                            checked={field.value?.includes(gear.id)}
                             onCheckedChange={(checked) => {
                               return checked
-                                ? field.onChange([...field.value, item.id])
+                                ? field.onChange([...field.value, gear.id])
                                 : field.onChange(
                                   field.value?.filter(
-                                    (value) => value !== item.id
+                                    (value) => value !== gear.id
                                   )
                                 )
                             }}
                           />
                         </FormControl>
                         <FormLabel className="font-normal">
-                          {item.label}
+                          {gear.name}
                         </FormLabel>
                       </FormItem>
                     )

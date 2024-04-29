@@ -11,34 +11,34 @@ export type SideBarItem = {
 export const SIDEBAR_ITENS: SideBarItem[] = [
   {
     title: 'Dashboard',
-    path: '/admin',
+    path: '/dashboard',
     icon: <LayoutDashboard />,
     submenu: false,
   },
   {
     title: 'Nomes Sugeridos',
-    path: '/admin/suggestions',
+    path: '/dashboard/suggestions',
     icon:  <Inbox />,
     submenu: false,
   },
   {
     title: 'Peixes',
-    path: '/admin/fish',
+    path: '/dashboard/fish',
     icon: <FishIcon />,
     submenu: true,
     subMenuItems: [
-      { title: 'Todos', path: '/admin/fish' },
-      { title: 'Novo Peixe', path: '/admin/fish/new' },
+      { title: 'Todos', path: '/dashboard/fish' },
+      { title: 'Novo Peixe', path: '/dashboard/fish/new' },
     ],
   },
   {
     title: 'Comunidades',
-    path: '/admin/communities',
+    path: '/dashboard/communities',
     icon: <MapPinned />,
     submenu: true,
     subMenuItems: [
-      { title: 'Todos', path: '/admin/communities' },
-      { title: 'Nova comunidade', path: '/admin/communities/new' },
+      { title: 'Todos', path: '/dashboard/communities' },
+      { title: 'Nova comunidade', path: '/dashboard/communities/new' },
     ],
   },
 ];

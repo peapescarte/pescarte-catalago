@@ -1,9 +1,11 @@
-type Name = {
-  name: string;
-  approve: boolean;
+export type SuggestedNameOut = {
+  community: string,
+  names: string[]
 }
 
-export type CommonName = {
-  region: string;
-  names: Name[];
+export type SuggestedNameIn = {
+  common_name: string,
+  community_id: string,
+  uf: string,
+  municipality: string,
 }

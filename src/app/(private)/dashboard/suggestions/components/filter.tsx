@@ -15,18 +15,18 @@ export function DataTableFilter<TData>({ table }: DataTableToolbarProps<TData>) 
 
   const statuses = [
     {
-      value: "pending",
+      value: "PENDING",
       label: "Pending",
       icon: LuMail,
     },
     {
-      value: "approved",
+      value: "APPROVED",
       label: "Approved",
       icon: LuMailCheck,
     },
     {
-      value: "discarded",
-      label: "Discarded",
+      value: "REJECTED",
+      label: "Rejected",
       icon: LuMailX,
     }
   ]

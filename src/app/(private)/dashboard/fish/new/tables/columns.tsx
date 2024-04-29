@@ -2,38 +2,24 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { SuggestedNameOut } from "@/models/CommonName"
+import { FishOut } from "@/models/Fish"
+import { GearOut } from "@/models/Gear"
+import { HabitatOut } from "@/models/Habitat"
 import { ColumnDef } from "@tanstack/react-table"
 import Image from "next/image"
 import { LuArrowUpDown } from "react-icons/lu"
+import fishExample from "@/assets/examples/peixe.png";
 
-type Name = {
-  name: string;
-  approve: boolean;
-}
-
-type CommonName = {
-  region: string;
-  names: Name[];
-}
-
-export type FishProps = {
-  id: string;
-  scientific_name: string;
-  native: boolean;
-  image: string;
-  gears: string[];
-  common_name: CommonName[];
-}
-
-export const columns: ColumnDef<FishProps>[] = [
+export const columns: ColumnDef<FishOut>[] = [
   {
-    accessorKey: "image",
+    accessorKey: "image_data",
     header: () => <div className="text-white font-medium whitespace-nowrap">Imagem</div>,
     cell: ({ row }) => {
-      const image: string = row.getValue("image")
-
+      const image_data = row.getValue("image_data") || fishExample
+      
       return (
-        <Image className="m-0 rounded" src={image} alt="" height={40} width={60}/>
+        <Image className="m-0 rounded" src={image_data} alt="" height={40} width={60}/>
       )
     }
   },
@@ -81,13 +67,13 @@ export const columns: ColumnDef<FishProps>[] = [
     accessorKey: "gears",
     header: () => <div className="text-white font-medium whitespace-nowrap">Captura</div>,
     cell: ({ row }) => {
-      const gears: string[] = row.getValue("gears")
+      const gears: GearOut[] = row.getValue("gears")
 
       const gearsRender: JSX.Element[] = []
 
       gears.forEach(gear => {
         gearsRender.push(
-          <Badge className="ml-1 bg-[#F3F3F3] font-normal text-black hover:text-black" variant="default">{gear}</Badge>
+          <Badge key={gear.id} className="ml-1 bg-[#F3F3F3] font-normal text-black hover:text-black" variant="default">{gear.name}</Badge>
         )
       });
 
@@ -95,20 +81,36 @@ export const columns: ColumnDef<FishProps>[] = [
     },
   },
   {
-    accessorKey: "common_name",
+    accessorKey: "habitats",
+    header: () => <div className="text-white font-medium whitespace-nowrap">Habitat</div>,
+    cell: ({ row }) => {
+      const habitats: HabitatOut[] = row.getValue("habitats")
+
+      const gearsRender: JSX.Element[] = []
+
+      habitats.forEach(habitat => {
+        gearsRender.push(
+          <Badge key={habitat.id} className="ml-1 bg-[#F3F3F3] font-normal text-black hover:text-black" variant="default">{habitat.name}</Badge>
+        )
+      });
+
+      return gearsRender
+    },
+  },
+  {
+    accessorKey: "suggested_names",
     header: () => <div className="text-white font-medium whitespace-nowrap">Nomes Populares</div>,
     cell: ({ row }) => {
-      const commonNames: CommonName[] = row.getValue("common_name")
+      const suggested_names: SuggestedNameOut[] = row.getValue("suggested_names")
 
       const namesRender: JSX.Element[] = []
 
-      commonNames.forEach(commonName => {
-        const names: Name[] = commonName.names
+      suggested_names.forEach(suggested_name => {
+        const names: string[] = suggested_name.names
 
         names.forEach(name => {
-          if(name.approve)
             namesRender.push(
-              <Badge className="ml-1 bg-[#F3F3F3] font-normal text-black hover:text-black" variant="default">{name.name}</Badge>
+              <Badge key={name} className="ml-1 bg-[#F3F3F3] font-normal text-black hover:text-black" variant="default">{name}</Badge>
             )
         })
       });

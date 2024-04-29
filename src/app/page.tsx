@@ -1,5 +1,3 @@
-"use client"
-
 import Image from "next/image";
 
 import { CardFish } from "@/components/my-ui/CardFish";
@@ -14,14 +12,14 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 
-
 import redes from "@/assets/backgrounds/redes.png";
-import { useFish } from "@/hooks/useFish";
 import { Toaster } from "@/components/ui/sonner";
 import { SearchForm } from "./forms/search-form";
+import { FishService, LocalityService } from "@/services";
 
-export default function Home() {
-  const { fish: allFish } = useFish();
+export default async function Home() {
+  const states = await LocalityService.getAllState(true)
+  const fish = await FishService.getAll()
 
   return (
     <>
@@ -37,49 +35,55 @@ export default function Home() {
           <h1 className="font-bold text-4xl text-[#404040] mb-10 md:items-center">Catálogo de Peixes</h1>
 
           {/* Search */}
-          <SearchForm />
-          <Toaster position="top-right" richColors/>
+          <SearchForm states={states} />
+          <Toaster position="top-right" richColors />
         </div>
 
-        <div className="flex flex-col gap-6 mt-12 mb-20">
-          {allFish?.map((fish) => {
-            return (
-              <CardFish
-                key={fish.id}
-                id={fish.id}
-                common_name={fish.common_name}
-                scientific_name={fish.scientific_name}
-                native={fish.native}
-                gears={fish.gears}
-                image={fish.image}
-              />
-            )
-          })}
-        </div>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        {fish.length > 0 ? (
+          <>
+            <div className="flex flex-col gap-6 mt-12 mb-20">
+              {fish.map((fish) => {
+                return (
+                  <CardFish
+                    key={fish.id}
+                    id={fish.id}
+                    suggested_names={fish.suggested_names}
+                    scientific_name={fish.scientific_name}
+                    native={fish.native}
+                    gears={fish.gears}
+                    image_data={fish.image_data}
+                  />
+                )
+              })}
+            </div>
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious href="#" />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">1</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#" isActive>
+                    2
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">3</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext href="#" />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </>
+        ) : (
+          <div className="flex flex-col gap-6 mt-12 mb-20"> Não há peixe! </div>
+        )}
       </main>
       <Footer />
     </>
