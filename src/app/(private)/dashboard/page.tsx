@@ -19,7 +19,7 @@ export default async function DashboardPage() {
       <div className="hidden flex-col md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Link href="admin/fish">
+            <Link href="dashboard/fish">
             <Card className="hover:text-[#0064C8] cursor-pointer">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
@@ -41,7 +41,7 @@ export default async function DashboardPage() {
               </CardContent>
             </Card >
            </Link>
-            <Link href="admin/communities">
+            <Link href="dashboard/communities">
             <Card className="hover:text-[#0064C8] cursor-pointer">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
@@ -63,7 +63,7 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
             </Link>
-            <Link href="admin/suggestions">
+            <Link href="dashboard/suggestions">
             <Card className="hover:text-[#0064C8] cursor-pointer">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
