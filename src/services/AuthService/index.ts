@@ -1,33 +1,44 @@
-import axios from "axios"
+"use server"
+import * as jose from 'jose';
+import { cookies } from 'next/headers';
 
-type LoginProps = {
-  cpf: string, 
-  password: string,
+export async function openSessionToken(token: string) {
+  const secret = new TextEncoder().encode(process.env.AUTH_SECRET || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9");
+  const { payload } = await jose.jwtVerify(token, secret);
+
+  return payload;
 }
 
-export const AuthService = {
-  login: async function ({cpf, password}: LoginProps): Promise<any | undefined> {
-    try {
-      //chamada de API
-      console.log('AuthService.login', cpf, password)
+export async function createSessionToken(payload = {}) {
+  const secret = new TextEncoder().encode(process.env.AUTH_SECRET || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9");
+  const session = await new jose.SignJWT(payload)
+    .setProtectedHeader({
+      alg: 'HS256',
+    })
+    .setExpirationTime('1d')
+    .sign(secret);
+  const { exp } = await openSessionToken(session);
 
-      return {
-        status: 200, 
-        message: 'Login realizado com sucesso'
-      }
+  cookies().set('session', session, {
+    expires: (exp as number) * 1000,
+    path: '/',
+    httpOnly: true,
+  });
+}
 
-    } catch (error) {
-      if(axios.isAxiosError(error) && error.response) {
-        throw new Error(`Status: ${error.response.status} - ${error.message}`)
-      }
-    }
-  },
+export async function isSessionValid() {
+  const sessionCookie = cookies().get('session');
 
-  logout: async function () {
-    
-  },
-
-  session: async function () {
-    return true
+  if (sessionCookie) {
+    const { value } = sessionCookie;
+    const { exp } = await openSessionToken(value);
+    const currentDate = new Date().getTime();
+    return (exp as number) * 1000 > currentDate;
   }
+
+  return false;
+}
+
+export async function destroySession() {
+  cookies().delete('session');
 }

@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { useSearchForm } from "@/hooks/useSearchForm";
 import { LocalityService } from "@/services";
 import { useCallback, useEffect, useState } from "react";
 import { State } from "@/models/State";
@@ -14,13 +13,46 @@ import { useWatch } from "react-hook-form";
 import { CommunityOut } from "@/models/Community";
 import { City } from "@/models/City";
 
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import Link from "next/link";
+import { useRouter } from 'next/navigation'
+
+const searchFormSchema = z.object({
+  scientific_name: z.string().max(50).optional(),
+  common_name: z.string().optional(),
+  uf: z.string().max(2).optional(),
+  municipality_id: z.string().optional(),
+  community: z.string().optional(),
+})
+
+type SearchFormValues = z.infer<typeof searchFormSchema>
+
+const defaultValues: Partial<SearchFormValues> = {
+  uf: "RJ",
+  municipality_id: "",
+}
+
 type SearchFormProps = {
   states: State[]
 }
 
 
 export function SearchForm({states} : SearchFormProps) {
-  const { form, onSubmit } = useSearchForm()
+  
+  const form = useForm<SearchFormValues>({
+    resolver: zodResolver(searchFormSchema),
+    defaultValues,
+    mode: "onChange",
+  })
+
+  const router = useRouter();
+
+   const onSubmit = (data: SearchFormValues) => {
+    router.push(`/?scientific_name=${data.scientific_name}&common_name=${data.common_name}&community_id=${data.community}`)
+  }
+
   const [municipalities, setMunicipalities] = useState<City[]>([])
   const [communities, setCommunities] = useState<CommunityOut[]>([])
 
@@ -41,7 +73,7 @@ export function SearchForm({states} : SearchFormProps) {
   }, [])
 
   const getCommunitiesByMunicipality = useCallback(async (municipality_id: string | undefined) => {
-    const communities = await LocalityService.getCommunityByMunicipality(municipality_id) 
+    const communities = await LocalityService.getCommunityByMunicipality(municipality_id || "") 
 
     setCommunities(communities)
   }, [])

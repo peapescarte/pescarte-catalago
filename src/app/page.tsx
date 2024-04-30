@@ -20,7 +20,7 @@ import { FishService, LocalityService } from "@/services";
 export default async function Home() {
   const states = await LocalityService.getAllState(true)
   const fish = await FishService.getAll()
-
+  
   return (
     <>
       <Image
@@ -35,7 +35,7 @@ export default async function Home() {
           <h1 className="font-bold text-4xl text-[#404040] mb-10 md:items-center">Catálogo de Peixes</h1>
 
           {/* Search */}
-          <SearchForm states={states} />
+          {/* <SearchForm states={states}/> */}
           <Toaster position="top-right" richColors />
         </div>
 

@@ -1,6 +1,6 @@
 import { SuggestedNameOut, SuggestedNameIn } from "./CommonName"
-import { GearIn, GearOut } from "./Gear"
-import { HabitatIn, HabitatOut } from "./Habitat"
+import { GearOut } from "./Gear"
+import { HabitatOut } from "./Habitat"
 
 export type FishOut = {
   id: string,
@@ -16,7 +16,7 @@ export type FishIn = {
   scientific_name: string,
   native: boolean,
   image_data: string | null,
-  gears: GearIn[],
-  habitats: HabitatIn[],
+  gears: string[],
+  habitats: string[],
   suggested_names: SuggestedNameIn[]
 }

@@ -105,16 +105,18 @@ export const columns: ColumnDef<FishOut>[] = [
 
       const namesRender: JSX.Element[] = []
 
-      suggested_names.forEach(suggested_name => {
-        const names: string[] = suggested_name.names
-
-        names.forEach(name => {
-            namesRender.push(
-              <Badge key={name} className="ml-1 bg-[#F3F3F3] font-normal text-black hover:text-black" variant="default">{name}</Badge>
-            )
-        })
-      });
-
+      if(suggested_names && suggested_names.length > 0){
+        suggested_names.forEach(suggested_name => {
+          const names: string[] = suggested_name.names
+  
+          names.forEach(name => {
+              namesRender.push(
+                <Badge key={name} className="ml-1 bg-[#F3F3F3] font-normal text-black hover:text-black" variant="default">{name}</Badge>
+              )
+          })
+        });
+      }
+      
       return namesRender
     },
   },

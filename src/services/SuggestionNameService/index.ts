@@ -12,12 +12,6 @@ export const SuggestionNameService = {
     suggested_name
   }: SuggestedNameIn) {
     try {
-      console.log( name,
-        email,
-        fish_id,
-        community_id,
-        suggested_name)
-
       await axiosClient.post("/suggested-common-name/", {
         name,
         email,
@@ -143,7 +137,8 @@ export const SuggestionNameService = {
         ids: [id]
       })
 
-      window.location.href = '/dashboard/suggestions'
+      window.location.reload();
+
     } catch (error) {
       console.error('Erro na chamada da API:', error);
     }
@@ -155,7 +150,7 @@ export const SuggestionNameService = {
         ids: [id]
       })
 
-      window.location.href = '/dashboard/suggestions'
+      window.location.reload();
 
     } catch (error) {
       console.error('Erro na chamada da API:', error);

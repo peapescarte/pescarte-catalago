@@ -24,7 +24,6 @@ export function CardFish({
   gears,
   image_data,
 }: CardFishProps) {
-
   return (
     <div className="flex flex-col xl:flex-row border border-[#E7E7E7] rounded-lg xl:flex">
       {/* Image */}
@@ -38,10 +37,10 @@ export function CardFish({
       <div className="xl:flex xl:flex-col xl:self-center xl:flex-1">
 
         {/* Name */}
-        { suggested_names ? (
+        { (suggested_names != null && suggested_names.length > 0) ? (
           <h2 className="font-bold text-2xl p-1 xl:ml-3">{suggested_names[0].names[0]}</h2>
         ) : (
-          <h2 className="font-bold text-2xl p-1 xl:ml-3">Não há nomes comuns</h2>
+         <h2 className="font-bold text-2xl p-1 xl:ml-3">Não há nomes comuns</h2>
         )}
 
         {/* Info */}
@@ -49,7 +48,7 @@ export function CardFish({
 
           {/* Sci info */}
           <div className="flex flex-col gap-2 w-1/2">
-            <div className="text-xs">
+            <div className="text-base">
               <strong>Nome Científico: </strong>
               {scientific_name}
             </div>
@@ -79,7 +78,7 @@ export function CardFish({
           <div className="flex flex-col gap-2 text-sm w-1/2">
             <h3 className="font-bold text-lg">Nomes Populares</h3>
             <div className="flex flex-col gap-2">
-              {suggested_names ? (
+              {suggested_names && suggested_names.length > 0 ? (
                 suggested_names.map((Suggested_name) => {
                   return (
                     <p key={Suggested_name.community} className="text-xs">
@@ -93,7 +92,7 @@ export function CardFish({
                   )
                 })
                 ) : (
-                  <span className="bg-[#F3F3F3] rounded p-1 m-1">Não há nome comum</span>
+                  <span className="bg-[#F3F3F3] text-sm rounded p-1 m-1">Não há nomes comuns</span>
                 )
               }
             </div>

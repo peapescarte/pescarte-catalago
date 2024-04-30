@@ -1,4 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { FishService, LocalityService, SuggestionNameService } from "@/services"
 import { FishIcon, Inbox, MapPinned } from "lucide-react"
 import { Metadata } from "next"
 import Link from "next/link"
@@ -8,7 +9,11 @@ export const metadata: Metadata = {
   description: "Example dashboard app built using the components.",
 }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const fish = await FishService.getAll()
+  const community = await LocalityService.getAllCommunity()
+  const suggested_names = await SuggestionNameService.getAll()
+
   return (
     <>
       <div className="hidden flex-col md:flex">
@@ -23,7 +28,13 @@ export default function DashboardPage() {
                 <FishIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">1200</div>
+                {
+                  fish && fish.length > 0 ? (
+                    <div className="text-2xl font-bold">{fish.length}</div>
+                  ) : (
+                    <div className="text-2xl font-bold">{0}</div>
+                  )
+                }
                 <p className="text-xs text-muted-foreground">
                   peixes cadastrados
                 </p>
@@ -39,7 +50,13 @@ export default function DashboardPage() {
                 <MapPinned className="h-4 w-4 text-muted-foreground"/>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">350</div>
+              {
+                  community && community.length > 0 ? (
+                    <div className="text-2xl font-bold">{community.length}</div>
+                  ) : (
+                    <div className="text-2xl font-bold">{0}</div>
+                  )
+                }
                 <p className="text-xs text-muted-foreground">
                   comunidades cadastradas
                 </p>
@@ -55,7 +72,13 @@ export default function DashboardPage() {
                 <Inbox className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">534</div>
+              {
+                  suggested_names && suggested_names.length > 0 ? (
+                    <div className="text-2xl font-bold">{suggested_names.length}</div>
+                  ) : (
+                    <div className="text-2xl font-bold">{0}</div>
+                  )
+                }
                 <p className="text-xs text-muted-foreground">
                   nomes sugeridos
                 </p>

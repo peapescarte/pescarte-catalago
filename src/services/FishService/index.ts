@@ -4,6 +4,8 @@ import { HabitatOut } from "@/models/Habitat"
 import { GearOut } from "@/models/Gear"
 import axios from "axios"
 import { toast } from "sonner"
+import { base64ToImage } from "@/functions"
+import nextBase64 from "next-base64"
 
 type FishGetFilter = {
   scientific_name?: string,
@@ -21,7 +23,6 @@ export const FishService = {
     suggested_names,
   }: FishIn){
     try {
-      // criar o peixe
       const {data: response} = await axiosClient.post(`/fish`, {
         scientific_name,
         native,
@@ -31,10 +32,13 @@ export const FishService = {
       })
 
       // associar imagem ao peixe
-      await axiosClient.post(`/fish`, {
-        fish_id: response.id,
+      await axiosClient.post(`/fish/${response.id}/upload-image`, {
         file: image_data
-      })
+        }, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
 
       // criar nomes comuns para o peixe
       if (suggested_names.length > 0){
@@ -49,7 +53,7 @@ export const FishService = {
         }
       }
 
-      toast.success("Peixe cadastrado com sucesso")
+      alert("Peixe cadastrado com sucesso")
       window.location.href = '/dashboard/fish'
 
     } catch (error) {
@@ -61,9 +65,17 @@ export const FishService = {
 
   getAll: async function (): Promise<FishOut[]> {
     try { 
-      const { data: fish } = await axiosClient.get<FishOut[]>(`/fish/`)
+      const { data } = await axiosClient.get<FishOut[]>(`/fish/`)
+      const fish = data.map((f) => {
+        if(f.image_data != null) {
+          const image = base64ToImage(f.image_data)
+          f.image_data = image
+          return f
+        }
+        return f
+      })
+    
       return fish
-
     } catch (error) {
       console.error('Erro na chamada da API:', error);
       return []; 
@@ -91,10 +103,17 @@ export const FishService = {
     }
 
     try {
-      const { data: fish } = await axiosClient.get<FishOut[]>(`/fish/?scientific_name=${scientific_name}&common_name=${common_name}&community_id=${community_id}`)
-     
+      const { data } = await axiosClient.get<FishOut[]>(`/fish/?scientific_name=${scientific_name}&common_name=${common_name}&community_id=${community_id}`)
+      const fish = data.map((f) => {
+        if(f.image_data != null) {
+          const image = base64ToImage(f.image_data)
+          f.image_data = image
+          return f
+        }
+        return f
+      })
+    
       toast.success("Pesquisa realizada com Sucesso")
-
       return fish
 
     } catch (error) {
@@ -106,6 +125,11 @@ export const FishService = {
   getFishById: async function (id: string): Promise<FishOut> {
     try { 
       const { data: fish } = await axiosClient.get<FishOut>(`/fish/${id}`)
+      if(fish.image_data != null) {
+        const image = base64ToImage(fish.image_data)
+        fish.image_data = image
+      }
+      
       return fish
 
     } catch (error) {

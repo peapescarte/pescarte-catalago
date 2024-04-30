@@ -1,5 +1,5 @@
-import { AuthService } from "@/services/AuthService";
 import { validateCPF } from "@/functions/validateCPF"
+import AuthActions from "@/services/modules/auth/actions/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -24,10 +24,10 @@ export const useLogin = () => {
   })
 
   const onSubmit = (data: LoginFormValues) => {
-    AuthService.login({
-      cpf: data.cpf,
-      password: data.password
-    })
+    // AuthActions.login({
+    //   cpf: data.cpf,
+    //   password: data.password
+    // })
   }
 
   return {

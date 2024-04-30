@@ -2,7 +2,7 @@ import { Footer } from '@/components/my-ui/Footer'
 import { LoginForm } from './forms/login-forms'
 
 
-export default function Login() {
+export default async function Login() {
   return (
     <div className="flex flex-col h-screen">
       <main className="h-screen w-full flex items-center justify-center bg-fixed bg-cover bg-center" style={{backgroundImage: "url(https://pescarte.uenf.br/images/fish_background-c4aaa0426c2ea6898aa748f3520e654f.svg?vsn=d)"}}>
