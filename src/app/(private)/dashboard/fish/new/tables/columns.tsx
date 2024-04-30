@@ -16,10 +16,11 @@ export const columns: ColumnDef<FishOut>[] = [
     accessorKey: "image_data",
     header: () => <div className="text-white font-medium whitespace-nowrap">Imagem</div>,
     cell: ({ row }) => {
-      const image_data = row.getValue("image_data") || fishExample
-      
+      const image_data = row.getValue("image_data")
+      const src = typeof image_data === 'string' ? image_data : fishExample;
+
       return (
-        <Image className="m-0 rounded" src={image_data} alt="" height={40} width={60}/>
+        <Image className="m-0 rounded" src={src} alt="" height={40} width={60}/>
       )
     }
   },
