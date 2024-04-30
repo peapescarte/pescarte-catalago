@@ -75,3 +75,25 @@ As versões das ferramentas utilizadas no projeto podem ser encontrada nos arqui
 # Para o Acesso Administrador
 **CPF**: `14496844168`
 **Password**: `2MFq'@Zlu;:M<rDD`
+
+# Execução Local
+Deseja-se Node Js previamente instalado.
+
+## Front
+```Bash
+npm install
+
+npm run dev
+```
+## Back
+Deseja-se Docker e DBMate (`{https://github.com/amacneil/dbmate}`) previamente instalado.
+```Bash
+docker network create catalogo
+
+docker-compose up
+```
+
+Após a execução da aplicação, rodas as migrations para scronização do banco de dados.
+```Bash
+dbmate up
+```
