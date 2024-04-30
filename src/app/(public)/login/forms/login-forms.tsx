@@ -17,7 +17,7 @@ import { useLogin } from "@/hooks/useLogin";
 // import { Input } from '@/components/ui/input';
 // import { Label } from '@/components/ui/label';
 // import Link from 'next/link';
-import AuthActions from "@/services/modules/auth/actions/auth";
+import AuthActions from "@/modules/auth/actions/auth";
 
 export function LoginForm() {
   const { form, onSubmit } = useLogin();

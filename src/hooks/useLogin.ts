@@ -1,5 +1,5 @@
 import { validateCPF } from "@/functions/validateCPF"
-import AuthActions from "@/services/modules/auth/actions/auth"
+import AuthActions from "@/modules/auth/actions/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
