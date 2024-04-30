@@ -17,6 +17,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { SearchForm } from "./forms/search-form";
 import { FishService, LocalityService } from "@/services";
 
+export const dynamic = 'force-dynamic';
 export default async function Home() {
   const states = await LocalityService.getAllState(true)
   const fish = await FishService.getAll()
@@ -55,7 +56,7 @@ export default async function Home() {
                 )
               })}
             </div>
-            <Pagination>
+            {/* <Pagination>
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious href="#" />
@@ -79,7 +80,8 @@ export default async function Home() {
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </>
+          */}
+            </> 
         ) : (
           <div className="flex flex-col gap-6 mt-12 mb-20"> Não há peixe! </div>
         )}

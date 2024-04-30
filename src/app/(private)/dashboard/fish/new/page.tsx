@@ -1,6 +1,7 @@
 import { FishService, LocalityService } from "@/services";
 import CreateFishForm from "./forms/createFishForm";
 
+export const dynamic = 'force-dynamic';
 export default async function NewFish() {
   const states = await LocalityService.getAllState()
   const gears = await FishService.getAllGear()
