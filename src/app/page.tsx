@@ -20,7 +20,6 @@ import { FishService, LocalityService } from "@/services";
 export default async function Home() {
   const states = await LocalityService.getAllState(true)
   const fish = await FishService.getAll()
-  
   return (
     <>
       <Image
