@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: "Example dashboard app built using the components.",
 }
 
+export const dynamic = 'force-dynamic';
 export default async function DashboardPage() {
   const fish = await FishService.getAll()
   const community = await LocalityService.getAllCommunity()
