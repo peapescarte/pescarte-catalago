@@ -406,10 +406,10 @@ export default function CreateFishForm({ municipalities, communities, gears, hab
                 </FormControl>
                 <div className="space-y-1 leading-none">
                   <FormLabel>
-                    Confirmo que possuo os Direitos Autorais da imagem selecionada.
+                    Confirmo que o projeto PEA Pescarte possui os Direitos Autorais da imagem selecionada.
                   </FormLabel>
                   <FormDescription>
-                    Por favor, confirme os direitos autorais. Não serão aceitas imagens cuja não possua os direitos autorais.
+                    Por favor, confirme os direitos autorais. Em conformidade com o previsto na Lei nº 13.709 , de 2018, Lei Geral de Proteção de Dados, não serão aceitas imagens para as que o Projeto PEA Pescarte não possua a autorização dos direitos autorais.
                   </FormDescription>
                 </div>
               </div>
