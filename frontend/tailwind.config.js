@@ -32,4 +32,10 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+  compilerOptions: {
+    "baseURL": ".",
+    "paths": {
+      "@/assets/*": ["public/assets/*"]
+    }
+  }
 }

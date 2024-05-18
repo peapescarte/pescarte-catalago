@@ -85,7 +85,7 @@ export function CardFish({
                       <strong>{Suggested_name.community}:</strong>
                       {Suggested_name.names?.map((name) => {
                           return (
-                            <span key={name} className="bg-[#F3F3F3] rounded p-1 m-1">{name}</span>
+                            <span key={name} className="bg-[#F3F3F3] text-sm  rounded p-1 m-1">{name}</span>
                           )
                       })}
                     </p>

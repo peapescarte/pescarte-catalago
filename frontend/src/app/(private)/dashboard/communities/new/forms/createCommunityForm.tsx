@@ -17,7 +17,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useCallback, useEffect, useState } from "react"
 import { LocalityService } from "@/services"
 import { State } from "@/models/State"
-
+import Link from 'next/link'
 
 const useCreateCommunityForm = () => {
   const createCommunityFormSchema = z.object({
@@ -161,7 +161,9 @@ export default function CreateCommunityForm({ states }: CreateCommunityFormProps
         />
 
         <div className="flex flex-col gap-2 md:flex-row md:justify-end">
-          <Button variant="cancel" className="w-40">Cancel</Button>
+          <Link className="w-40" href="/dashboard/communities">
+            <Button variant="cancel" className="w-40">Cancel</Button>
+          </Link>
           <Button variant="submit" className="w-40" type="submit">Enviar</Button>
         </div>
       </form>

@@ -91,19 +91,36 @@ export const FishService = {
     const everyPropsAreUndefined = props.every(value => value === undefined || value === "")
 
     if (everyPropsAreUndefined) {
-      toast("Informe algum valor", {
-        description: "Por favor, antes de realizar uma pesquisa, insira valores em um ou mais campo indicado!",
-        action: {
-          label: "OK",
-          onClick: () => console.log("OK"),
-        },
-      })
+      return this.getAll()
+      // toast("Informe algum valor", {
+      //   description: "Por favor, antes de realizar uma pesquisa, insira valores em um ou mais campo indicado!",
+      //   action: {
+      //     label: "OK",
+      //     onClick: () => console.log("OK"),
+      //   },
+      // })
 
-      return [];
+      // return [];
     }
 
     try {
-      const { data } = await axiosClient.get<FishOut[]>(`/fish/?scientific_name=${scientific_name}&common_name=${common_name}&community_id=${community_id}`)
+
+      const queryParams = [];
+
+      if (scientific_name) {
+        queryParams.push(`scientific_name=${encodeURIComponent(scientific_name)}`);
+      }
+      
+      if (common_name) {
+        queryParams.push(`common_name=${encodeURIComponent(common_name)}`);
+      }
+      
+      if (community_id) {
+        queryParams.push(`community_id=${encodeURIComponent(community_id)}`);
+      }
+          
+      const { data } = await axiosClient.get<FishOut[]>(`/fish/?${queryParams.join('&')}`)
+      // const { data } = await axiosClient.get<FishOut[]>(`/fish/?scientific_name=${scientific_name}&common_name=${common_name}&community_id=${community_id}`)
       const fish = data.map((f) => {
         if(f.image_data != null) {
           const image = base64ToImage(f.image_data)
@@ -113,7 +130,7 @@ export const FishService = {
         return f
       })
     
-      toast.success("Pesquisa realizada com Sucesso")
+      //toast.success("Pesquisa realizada com Sucesso")
       return fish
 
     } catch (error) {

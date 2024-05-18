@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link'
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -201,7 +202,9 @@ export function SuggestionForm({ id, states } : SuggestionProps) {
         />
 
         <div className="flex gap-2 md:justify-between">
-          <Button variant="cancel" className="w-full">Cancel</Button>
+          <Link href="/" className="w-full">
+            <Button variant="cancel" className="w-full">Cancel</Button>
+          </Link>
           <Button variant="submit" className="w-full" type="submit">Enviar</Button>
         </div>
       </form>

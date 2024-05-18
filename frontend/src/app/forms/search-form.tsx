@@ -16,15 +16,14 @@ import { City } from "@/models/City";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import Link from "next/link";
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const searchFormSchema = z.object({
   scientific_name: z.string().max(50).optional(),
   common_name: z.string().optional(),
   uf: z.string().max(2).optional(),
   municipality_id: z.string().optional(),
-  community: z.string().optional(),
+  community_id: z.string().optional(),
 })
 
 type SearchFormValues = z.infer<typeof searchFormSchema>
@@ -38,7 +37,6 @@ type SearchFormProps = {
   states: State[]
 }
 
-
 export function SearchForm({states} : SearchFormProps) {
   
   const form = useForm<SearchFormValues>({
@@ -47,10 +45,31 @@ export function SearchForm({states} : SearchFormProps) {
     mode: "onChange",
   })
 
-  const router = useRouter();
+  
 
-   const onSubmit = (data: SearchFormValues) => {
-    router.push(`/?scientific_name=${data.scientific_name}&common_name=${data.common_name}&community_id=${data.community}`)
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const { replace } = useRouter();
+  const onSubmit = (data: SearchFormValues) => {
+    const params = new URLSearchParams(searchParams)
+    if(data.scientific_name){
+      params.set('scientific_name', data.scientific_name)
+    } else {
+      params.delete('scientific_name')
+    } 
+
+    if(data.common_name) {
+      params.set('common_name', data.common_name)
+    }else {
+      params.delete('common_name')
+    } 
+
+    if(data.community_id) {
+      params.set('community_id', data.community_id)
+    }else {
+      params.delete('community_id')
+    } 
+    replace(`${pathname}?${params.toString()}`)
   }
 
   const [municipalities, setMunicipalities] = useState<City[]>([])
@@ -187,7 +206,7 @@ export function SearchForm({states} : SearchFormProps) {
         />
 
           <FormField
-            name="community"
+            name="community_id"
             control={form.control}
             render={({ field }) => (
               <FormItem className="w-full xl:flex-grow">

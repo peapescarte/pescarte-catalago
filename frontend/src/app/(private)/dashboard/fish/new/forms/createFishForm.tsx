@@ -26,7 +26,7 @@ import { GearOut } from "@/models/Gear"
 import { HabitatOut } from "@/models/Habitat"
 import { City } from "@/models/City"
 import { CommunityOut } from "@/models/Community"
-
+import Link from 'next/link'
 
 const useCreateFishForm = () => {
 
@@ -420,7 +420,9 @@ export default function CreateFishForm({ municipalities, communities, gears, hab
 
 
         <div className="flex flex-col gap-2 md:flex-row md:justify-end">
+        <Link className="w-40" href="/dashboard/fish">
           <Button variant="cancel" className="w-40">Cancel</Button>
+        </Link>
           <Button variant="submit" className="w-40" type="submit">Enviar</Button>
         </div>
       </form>
